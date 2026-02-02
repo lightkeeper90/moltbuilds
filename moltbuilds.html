@@ -1,0 +1,2589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moltbuilds | Select Your Agent</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --red: #ff3b3b;
+      --red-glow: rgba(255, 59, 59, 0.5);
+      --red-dim: rgba(255, 59, 59, 0.15);
+      --white: #ffffff;
+      --black: #000000;
+      --gray-900: #0a0a0a;
+      --gray-800: #141414;
+      --gray-700: #1f1f1f;
+      --gray-600: #2a2a2a;
+      --gray-500: #3d3d3d;
+      --gray-400: #6b6b6b;
+      --gray-300: #8c8c8c;
+      --gray-200: #b3b3b3;
+      --green: #00ff88;
+      --green-glow: rgba(0, 255, 136, 0.5);
+      --yellow: #ffd93d;
+      --cyan: #00d9ff;
+      --purple: #a855f7;
+      --orange: #ff6b35;
+      --pink: #ff3b8b;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    
+    /* Animated Background */
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(255,59,59,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,59,59,0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    .bg-glow {
+      position: fixed;
+      top: -30%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(255,59,59,0.15) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+      transition: all 0.5s ease;
+    }
+
+    /* Floating Orbs */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+      animation: float 20s ease-in-out infinite;
+      transition: all 0.5s ease;
+    }
+    
+    .orb-1 { width: 400px; height: 400px; background: rgba(255, 59, 59, 0.15); top: 10%; left: 10%; }
+    .orb-2 { width: 300px; height: 300px; background: rgba(255, 100, 100, 0.1); bottom: 20%; right: 10%; animation-delay: -5s; }
+    .orb-3 { width: 200px; height: 200px; background: rgba(255, 59, 59, 0.1); top: 50%; left: 60%; animation-delay: -10s; }
+    
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0); }
+      25% { transform: translate(30px, -30px); }
+      50% { transform: translate(-20px, 20px); }
+      75% { transform: translate(20px, 30px); }
+    }
+
+    /* Scanline Effect */
+    .scanlines {
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.1) 2px,
+        rgba(0, 0, 0, 0.1) 4px
+      );
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.3;
+    }
+
+    /* Navigation Bar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      z-index: 500;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+      color: var(--white);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .nav-logo-icon {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .nav-logo-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-link {
+      padding: 0.6rem 1rem;
+      color: var(--gray-400);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--white);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .nav-link.nav-twitter {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.6rem;
+    }
+
+    .nav-link.nav-twitter:hover {
+      color: var(--white);
+    }
+
+    .nav-btn {
+      padding: 0.6rem 1.25rem;
+      background: var(--red);
+      color: white;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      margin-left: 0.5rem;
+    }
+
+    .nav-btn:hover {
+      background: #ff5555;
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 1rem;
+      }
+      .nav-links {
+        gap: 0.25rem;
+      }
+      .nav-link {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8rem;
+      }
+      .nav-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .nav-link:not(.nav-btn):not(.nav-twitter) {
+        display: none;
+      }
+    }
+
+    /* Screen Containers */
+    .screen {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .screen.hidden {
+      display: none;
+    }
+
+    /* ==================== SELECTION SCREEN ==================== */
+    #selection-screen {
+      padding: 6rem 2rem 2rem;
+    }
+
+    .selection-header {
+      text-align: center;
+      padding: 2rem 0 3rem;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 50px var(--red-glow); }
+      50% { box-shadow: 0 0 80px var(--red-glow), 0 0 120px rgba(255,59,59,0.3); }
+    }
+
+    .logo-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .selection-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gray-300);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      margin-bottom: 0.5rem;
+    }
+
+    .selection-subtitle {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem;
+      color: var(--gray-400);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* Agent Grid */
+    .agent-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem 8rem;
+    }
+
+    @media (max-width: 1024px) {
+      .agent-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 640px) {
+      .agent-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Agent Card */
+    .agent-card {
+      position: relative;
+      background: rgba(10, 10, 10, 0.8);
+      border: 2px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 1.5rem;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      overflow: hidden;
+    }
+
+    .agent-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--agent-color) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      z-index: 0;
+    }
+
+    .agent-card::after {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(135deg, var(--agent-color), transparent, var(--agent-color));
+      border-radius: 22px;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .agent-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: var(--agent-color);
+      box-shadow: 0 20px 60px var(--agent-glow);
+    }
+
+    .agent-card:hover::before {
+      opacity: 0.1;
+    }
+
+    .agent-card:hover::after {
+      opacity: 0.5;
+    }
+
+    .agent-card.selected {
+      border-color: var(--agent-color);
+      box-shadow: 0 0 60px var(--agent-glow), inset 0 0 60px var(--agent-glow);
+    }
+
+    .agent-card.selected::before {
+      opacity: 0.15;
+    }
+
+    .agent-card.selected::after {
+      opacity: 1;
+      animation: border-pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes border-pulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    /* Agent Colors */
+    .agent-card[data-agent="alpha"] { --agent-color: #00ff88; --agent-glow: rgba(0, 255, 136, 0.3); }
+    .agent-card[data-agent="content"] { --agent-color: #ff3b8b; --agent-glow: rgba(255, 59, 139, 0.3); }
+    .agent-card[data-agent="trading"] { --agent-color: #ffd93d; --agent-glow: rgba(255, 217, 61, 0.3); }
+    .agent-card[data-agent="airdrop"] { --agent-color: #a855f7; --agent-glow: rgba(168, 85, 247, 0.3); }
+    .agent-card[data-agent="code"] { --agent-color: #00d9ff; --agent-glow: rgba(0, 217, 255, 0.3); }
+    .agent-card[data-agent="sentinel"] { --agent-color: #ff6b35; --agent-glow: rgba(255, 107, 53, 0.3); }
+
+    .agent-card-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Agent Avatar */
+    .agent-avatar {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1.25rem;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.02) 100%);
+      border: 2px solid var(--agent-color);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      box-shadow: 0 0 30px var(--agent-glow);
+      transition: all 0.3s ease;
+      color: var(--agent-color);
+    }
+
+    .agent-avatar svg {
+      width: 40px;
+      height: 40px;
+      fill: currentColor;
+    }
+
+    .agent-avatar i {
+      font-size: 2rem;
+    }
+
+    .agent-card:hover .agent-avatar {
+      transform: scale(1.1);
+      box-shadow: 0 0 50px var(--agent-glow);
+    }
+
+    .agent-card.selected .agent-avatar {
+      animation: avatar-pulse 1s ease-in-out infinite;
+    }
+
+    @keyframes avatar-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    /* Agent Info */
+    .agent-class {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--agent-color);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .agent-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .agent-desc {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.85rem;
+      color: var(--gray-400);
+      text-align: center;
+      line-height: 1.5;
+      margin-bottom: 1.25rem;
+    }
+
+    /* Agent Stats */
+    .agent-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 500;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-bar {
+      height: 4px;
+      background: var(--gray-700);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .stat-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--agent-color), rgba(255,255,255,0.5));
+      border-radius: 2px;
+      transition: width 0.5s ease;
+    }
+
+    /* Agent Abilities */
+    .agent-abilities {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      justify-content: center;
+    }
+
+    .ability-tag {
+      padding: 0.3rem 0.6rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--gray-300);
+      transition: all 0.2s ease;
+    }
+
+    .agent-card:hover .ability-tag {
+      border-color: var(--agent-color);
+      color: var(--white);
+    }
+
+    /* Selection Badge */
+    .selection-badge {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      width: 40px;
+      height: 40px;
+      background: var(--agent-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      box-shadow: 0 0 30px var(--agent-glow);
+      opacity: 0;
+      transform: scale(0);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .agent-card.selected .selection-badge {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Bottom Bar */
+    .selection-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1.5rem 2rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.9) 50%, transparent 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+      z-index: 100;
+      opacity: 0;
+      transform: translateY(100%);
+      transition: all 0.4s ease;
+    }
+
+    .selection-footer.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .selected-agent-preview {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .selected-avatar-mini {
+      width: 48px;
+      height: 48px;
+      background: rgba(255,255,255,0.05);
+      border: 2px solid var(--green);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: var(--green);
+    }
+
+    .selected-avatar-mini svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .selected-info h4 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .selected-info p {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.8rem;
+      color: var(--gray-400);
+    }
+
+    .proceed-btn {
+      padding: 1rem 2.5rem;
+      background: linear-gradient(135deg, var(--red) 0%, #ff6b6b 100%);
+      border: none;
+      border-radius: 14px;
+      color: white;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      box-shadow: 0 8px 40px var(--red-glow);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .proceed-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 50px var(--red-glow);
+    }
+
+    .proceed-btn .arrow {
+      transition: transform 0.3s ease;
+    }
+
+    .proceed-btn:hover .arrow {
+      transform: translateX(5px);
+    }
+
+    /* ==================== FEATURES SECTION ==================== */
+    .features-section {
+      max-width: 1100px;
+      margin: 0 auto 5rem;
+      padding: 0 2rem;
+    }
+
+    .features-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .features-header::before {
+      content: '›';
+      font-size: 1.5rem;
+      color: var(--red);
+      font-weight: 700;
+    }
+
+    .features-header h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    @media (max-width: 900px) {
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 600px) {
+      .features-grid { grid-template-columns: 1fr; }
+    }
+
+    .feature-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 1.75rem;
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+      border-color: rgba(255,59,59,0.3);
+      background: rgba(255,255,255,0.04);
+      transform: translateY(-4px);
+    }
+
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      color: var(--red);
+    }
+
+    .feature-icon svg {
+      width: 32px;
+      height: 32px;
+      stroke-width: 1.5;
+    }
+
+    .feature-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.75rem;
+    }
+
+    .feature-desc {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: var(--gray-400);
+      line-height: 1.6;
+    }
+
+    /* ==================== INTEGRATIONS SECTION ==================== */
+    .integrations-section {
+      max-width: 900px;
+      margin: 0 auto 8rem;
+      padding: 0 2rem;
+      text-align: center;
+    }
+
+    .integrations-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .integrations-header::before {
+      content: '|';
+      font-size: 1.5rem;
+      color: var(--red);
+      font-weight: 700;
+    }
+
+    .integrations-header h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .integrations-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .integration-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 100px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--gray-200);
+      transition: all 0.3s ease;
+      cursor: default;
+    }
+
+    .integration-badge:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.2);
+      transform: translateY(-2px);
+    }
+
+    .integration-badge i {
+      font-size: 1rem;
+    }
+
+    .integration-badge .icon-whatsapp { color: #25D366; }
+    .integration-badge .icon-telegram { color: #26A5E4; }
+    .integration-badge .icon-discord { color: #5865F2; }
+    .integration-badge .icon-slack { color: #E01E5A; }
+    .integration-badge .icon-twitter { color: #ffffff; }
+    .integration-badge .icon-reddit { color: #FF4500; }
+    .integration-badge .icon-openai { color: #10A37F; }
+    .integration-badge .icon-claude { color: #D97706; }
+    .integration-badge .icon-github { color: #ffffff; }
+    .integration-badge .icon-spotify { color: #1DB954; }
+    .integration-badge .icon-gmail { color: #EA4335; }
+    .integration-badge .icon-notion { color: #ffffff; }
+    .integration-badge .icon-solana { color: #9945FF; }
+    .integration-badge .icon-ethereum { color: #627EEA; }
+
+    .view-integrations {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      color: var(--red);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .view-integrations:hover {
+      gap: 0.75rem;
+    }
+
+    /* ==================== CONFIGURE SCREEN ==================== */
+    #configure-screen {
+      padding: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .config-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .back-btn {
+      width: 48px;
+      height: 48px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      color: var(--gray-300);
+      font-size: 1.25rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .back-btn:hover {
+      background: rgba(255,255,255,0.1);
+      color: var(--white);
+      border-color: var(--red);
+    }
+
+    .config-title-area {
+      flex: 1;
+    }
+
+    .config-title-area h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .config-title-area h1 #config-avatar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .config-title-area h1 #config-avatar svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .config-title-area p {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.9rem;
+      color: var(--gray-400);
+      margin-top: 0.25rem;
+    }
+
+    .config-title-area .config-hint {
+      font-size: 0.85rem;
+      color: var(--gray-500);
+      margin-top: 0.5rem;
+      font-style: italic;
+    }
+
+    .agent-badge {
+      padding: 0.4rem 0.8rem;
+      background: var(--config-color);
+      border-radius: 8px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    /* Deploy Card */
+    .deploy-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      padding: 2rem;
+      backdrop-filter: blur(20px);
+    }
+
+    .deploy-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+
+    .deploy-card-title {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .deploy-card-title h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .status-badge {
+      padding: 0.35rem 0.75rem;
+      background: var(--red-dim);
+      border: 1px solid var(--red);
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--red);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .status-badge.ready {
+      background: rgba(0, 255, 136, 0.1);
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    /* Settings Sections */
+    .settings-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .settings-section {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .settings-section:hover {
+      border-color: rgba(255,59,59,0.3);
+    }
+
+    .settings-section.expanded {
+      border-color: var(--red);
+      box-shadow: 0 0 30px rgba(255,59,59,0.1);
+    }
+
+    .settings-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .settings-header:hover {
+      background: rgba(255,255,255,0.02);
+    }
+
+    .settings-header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .settings-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--gray-700);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+
+    .settings-section.expanded .settings-icon {
+      background: var(--red-dim);
+    }
+
+    .settings-title {
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .settings-subtitle {
+      font-size: 0.75rem;
+      color: var(--gray-400);
+      margin-top: 0.15rem;
+    }
+
+    .settings-toggle {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gray-400);
+      transition: all 0.3s;
+    }
+
+    .settings-section.expanded .settings-toggle {
+      transform: rotate(180deg);
+      color: var(--red);
+    }
+
+    .settings-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+
+    .settings-section.expanded .settings-body {
+      max-height: 600px;
+    }
+
+    .settings-content {
+      padding: 0 1.25rem 1.25rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    /* Form Elements */
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-group label {
+      font-size: 0.8rem;
+      color: var(--gray-300);
+      font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group select {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      color: var(--white);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--red);
+      box-shadow: 0 0 20px rgba(255,59,59,0.15);
+    }
+
+    /* Checkbox Grid */
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0.5rem;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0.75rem;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      color: var(--gray-300);
+      transition: all 0.2s;
+    }
+
+    .checkbox-item:hover {
+      border-color: rgba(255,59,59,0.3);
+    }
+
+    .checkbox-item:has(input:checked) {
+      background: var(--red-dim);
+      border-color: var(--red);
+      color: var(--white);
+    }
+
+    .checkbox-item input {
+      accent-color: var(--red);
+    }
+
+    /* Deploy Button */
+    .deploy-section {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .deploy-btn {
+      width: 100%;
+      padding: 1.25rem 2rem;
+      background: linear-gradient(135deg, var(--red) 0%, #ff6b6b 100%);
+      border: none;
+      border-radius: 16px;
+      color: white;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      box-shadow: 0 8px 40px var(--red-glow);
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .deploy-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 50px var(--red-glow);
+    }
+
+    .deploy-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      100% { left: 100%; }
+    }
+
+    .deploy-hint {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: var(--gray-500);
+    }
+
+    /* Modal Overlay */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+      padding: 1rem;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal {
+      background: var(--gray-900);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 24px;
+      width: 100%;
+      max-width: 800px;
+      max-height: 90vh;
+      overflow: hidden;
+      transform: scale(0.95);
+      transition: all 0.3s;
+    }
+
+    .modal-overlay.active .modal {
+      transform: scale(1);
+    }
+
+    /* Terminal */
+    .terminal {
+      background: #0d0d0d;
+      border-radius: 16px;
+      overflow: hidden;
+      margin: 1.5rem;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .terminal-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      background: rgba(0,0,0,0.5);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .terminal-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .terminal-dot.red { background: #ff5f56; }
+    .terminal-dot.yellow { background: #ffbd2e; }
+    .terminal-dot.green { background: #27c93f; }
+
+    .terminal-title {
+      margin-left: 0.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--gray-400);
+    }
+
+    .terminal-body {
+      padding: 1rem;
+      height: 350px;
+      overflow-y: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.6;
+    }
+
+    .terminal-line {
+      margin-bottom: 0.25rem;
+      opacity: 0;
+      animation: fadeIn 0.1s forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    .terminal-line .prompt { color: var(--green); }
+    .terminal-line .command { color: var(--white); }
+    .terminal-line .comment { color: var(--gray-500); }
+    .terminal-line .success { color: var(--green); }
+    .terminal-line .warning { color: var(--yellow); }
+    .terminal-line .error { color: var(--red); }
+    .terminal-line .info { color: var(--cyan); }
+    .terminal-line .purple { color: var(--purple); }
+    .terminal-line .dim { color: var(--gray-500); }
+
+    /* Progress Bar */
+    .progress-container {
+      padding: 0 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .progress-bar {
+      height: 6px;
+      background: var(--gray-700);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--red) 0%, var(--green) 100%);
+      width: 0%;
+      transition: width 0.3s ease;
+      box-shadow: 0 0 10px var(--red-glow);
+    }
+
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--gray-400);
+    }
+
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1rem 1.5rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .status-indicator .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,59,59,0.3);
+      border-top-color: var(--red);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Installation Modal */
+    .install-modal {
+      max-width: 750px;
+    }
+
+    .install-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .install-header h2 {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.25rem;
+    }
+
+    .install-header .check-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--green);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      box-shadow: 0 0 20px var(--green-glow);
+    }
+
+    .close-btn {
+      width: 36px;
+      height: 36px;
+      background: rgba(255,255,255,0.05);
+      border: none;
+      border-radius: 10px;
+      color: var(--gray-400);
+      font-size: 1.25rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .close-btn:hover {
+      background: rgba(255,255,255,0.1);
+      color: var(--white);
+    }
+
+    .install-body {
+      padding: 1.5rem;
+      max-height: 65vh;
+      overflow-y: auto;
+    }
+
+    .install-intro {
+      background: linear-gradient(135deg, var(--red-dim) 0%, transparent 100%);
+      border: 1px solid rgba(255,59,59,0.2);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .install-intro h3 {
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      color: var(--red);
+    }
+
+    .install-intro p {
+      font-size: 0.85rem;
+      color: var(--gray-300);
+      line-height: 1.5;
+    }
+
+    .install-step {
+      margin-bottom: 1.5rem;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .step-number {
+      width: 28px;
+      height: 28px;
+      background: var(--red);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .step-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .code-block {
+      background: #0d0d0d;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .code-block-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 1rem;
+      background: rgba(0,0,0,0.5);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .code-block-lang {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--gray-500);
+      text-transform: uppercase;
+    }
+
+    .copy-btn {
+      padding: 0.35rem 0.75rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      color: var(--gray-300);
+      font-size: 0.7rem;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: rgba(255,255,255,0.1);
+      color: var(--white);
+    }
+
+    .copy-btn.copied {
+      background: rgba(0,255,136,0.15);
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .code-block-body {
+      padding: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.6;
+      overflow-x: auto;
+      white-space: pre-wrap;
+    }
+
+    .advice-box {
+      background: rgba(168, 85, 247, 0.1);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      margin-top: 0.75rem;
+    }
+
+    .advice-box h4 {
+      font-size: 0.8rem;
+      color: var(--purple);
+      margin-bottom: 0.5rem;
+    }
+
+    .advice-box p, .advice-box ul {
+      font-size: 0.8rem;
+      color: var(--gray-300);
+      line-height: 1.5;
+    }
+
+    .advice-box ul { margin-left: 1rem; margin-top: 0.5rem; }
+    .advice-box li { margin-bottom: 0.25rem; }
+    .advice-box code {
+      background: rgba(0,0,0,0.3);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--cyan);
+    }
+
+    .install-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      gap: 1rem;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 0.875rem 1.5rem;
+      border-radius: 12px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--white);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--red) 0%, #ff6b6b 100%);
+      color: white;
+      box-shadow: 0 4px 20px var(--red-glow);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px var(--red-glow);
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .form-row { grid-template-columns: 1fr; }
+      .checkbox-grid { grid-template-columns: 1fr 1fr; }
+      .terminal-body { height: 280px; font-size: 0.7rem; }
+      .selection-footer { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="scanlines"></div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-icon"><img src="moltbuilds-logo.png" alt="Moltbuilds"></div>
+      <span>Moltbuilds</span>
+    </a>
+    <div class="nav-links">
+      <a href="moltbuilds-docs.html" class="nav-link">Docs</a>
+      <a href="#agents" class="nav-link">Agents</a>
+      <a href="#features" class="nav-link">Features</a>
+      <a href="#integrations" class="nav-link">Integrations</a>
+      <a href="#" class="nav-link nav-twitter" target="_blank"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+      <a href="moltbuilds-docs.html" class="nav-btn">Get Started</a>
+    </div>
+  </nav>
+
+  <!-- ==================== SELECTION SCREEN ==================== -->
+  <div class="screen" id="selection-screen">
+    <div class="selection-header">
+      <div class="logo">
+        <span class="logo-text">MOLTBUILDS</span>
+      </div>
+      <h1 class="selection-title">Select Your Agent</h1>
+      <p class="selection-subtitle">Deploy autonomous AI agents that work 24/7. Each agent is specialized for different tasks — from hunting alpha and creating content to executing trades and farming airdrops. Choose your agent, configure its tools, and let it run.</p>
+    </div>
+
+    <div class="agent-grid" id="agents">
+      <!-- Agent 1: Alpha Hunter -->
+      <div class="agent-card" data-agent="alpha" onclick="selectAgent('alpha')">
+        <div class="selection-badge">✓</div>
+        <div class="agent-card-inner">
+          <div class="agent-avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.3-4.3"></path>
+              <path d="M11 8v6"></path>
+              <path d="M8 11h6"></path>
+            </svg>
+          </div>
+          <div class="agent-class">Research Class</div>
+          <div class="agent-name">Alpha Hunter</div>
+          <div class="agent-desc">Scours the depths of CT, Discord, and on-chain data to find alpha before the masses.</div>
+          <div class="agent-stats">
+            <div class="stat">
+              <div class="stat-label">Speed</div>
+              <div class="stat-bar"><div class="stat-fill" style="width: 95%"></div></div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Intel</div>
+              <div class="stat-bar"><div class="stat-fill" style="width: 100%"></div></div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Risk</div>
+              <div class="stat-bar"><div class="stat-fill" style="width: 40%"></div></div>
+            </div>
+          </div>
+          <div class="agent-abilities">
+            <span class="ability-tag">Web Scraping</span>
+            <span class="ability-tag">Sentiment</span>
+            <span class="ability-tag">Alerts</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agent 2: Content Creator -->
+      <div class="agent-card" data-agent="content" onclick="selectAgent('content')">
+        <div class="selection-badge">✓</div>
+        <div class="agent-card-inner">
+          <div class="agent-avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+              <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+              <path d="M2 2l7.586 7.586"></path>
+              <circle cx="11" cy="11" r="2"></circle>
+            </svg>
+          </div>
+          <div class="agent-class">Creative Class</div>
+          <div class="agent-name">Content Creator</div>
+          <div class="agent-desc">Generates viral threads, memes, and engagement-optimized content 24/7.</div>
+          <div class="agent-stats">
+            <div class="stat">
+              <div class="stat-label">Speed</div>
+              <div class="stat-bar"><div class="stat-fill" style="width: 80%"></div></div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Creative</div>
+              <div class="stat-bar"><div class="stat-fill" style="width: 100%"></div></div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Risk</div>
+              <div class="stat-bar"><div class="stat-fill" style="width: 20%"></div></div>
+            </div>
+          </div>
+          <div class="agent-abilities">
+            <span class="ability-tag">Threads</span>
+            <span class="ability-tag">Memes</span>
+            <span class="ability-tag">Scheduler</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agent 3: Trading Bot -->
+      <div class="agent-card" data-agent="trading" onclick="selectAgent('trading')">
+        <div class="selection-badge">✓</div>
+        <div class="agent-card-inner">
+          <div class="agent-avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+              <polyline points="16 7 22 7 22 13"></polyline>
+            </svg>
+          </div>
+          <div class="agent-class">Finance Class</div>
+          <div class="agent-name">Trading Bot</div>
+          <div class="agent-desc">Executes automated trades based on technical analysis and market signals.</div>
+          <div class="agent-stats">
+            <div class="stat">
+              <div class="stat-label">Speed</div>
+              <div class="stat-bar"><div class="stat-fill" style="width: 100%"></div></div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Precision</div>
+              <div class="stat-bar"><div class="stat-fill" style="width: 90%"></div></div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Risk</div>
+              <div class="stat-bar"><div class="stat-fill" style="width: 85%"></div></div>
+            </div>
+          </div>
+          <div class="agent-abilities">
+            <span class="ability-tag">DCA</span>
+            <span class="ability-tag">Grid</span>
+            <span class="ability-tag">Sniper</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agent 4: Airdrop Farmer -->
+      <div class="agent-card" data-agent="airdrop" onclick="selectAgent('airdrop')">
+        <div class="selection-badge">✓</div>
+        <div class="agent-card-inner">
+          <div class="agent-avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+              <polyline points="7.5 4.21 12 6.81 16.5 4.21"></polyline>
+              <polyline points="7.5 19.79 7.5 14.6 3 12"></polyline>
+              <polyline points="21 12 16.5 14.6 16.5 19.79"></polyline>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+              <line x1="12" y1="22.08" x2="12" y2="12"></line>
+            </svg>
+          </div>
+          <div class="agent-class">Hunter Class</div>
+          <div class="agent-name">Airdrop Farmer</div>
+          <div class="agent-desc">Tracks eligible protocols, automates interactions, and maximizes airdrop potential.</div>
+          <div class="agent-stats">
+            <div class="stat">
+              <div class="stat-label">Speed</div>
+              <div class="stat-bar"><div class="stat-fill" style="width: 70%"></div></div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Coverage</div>
+              <div class="stat-bar"><div class="stat-fill" style="width: 95%"></div></div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Risk</div>
+              <div class="stat-bar"><div class="stat-fill" style="width: 30%"></div></div>
+            </div>
+          </div>
+          <div class="agent-abilities">
+            <span class="ability-tag">Testnets</span>
+            <span class="ability-tag">L2s</span>
+            <span class="ability-tag">Tracking</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agent 5: Code Architect -->
+      <div class="agent-card" data-agent="code" onclick="selectAgent('code')">
+        <div class="selection-badge">✓</div>
+        <div class="agent-card-inner">
+          <div class="agent-avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 18 22 12 16 6"></polyline>
+              <polyline points="8 6 2 12 8 18"></polyline>
+              <line x1="14" y1="4" x2="10" y2="20"></line>
+            </svg>
+          </div>
+          <div class="agent-class">Builder Class</div>
+          <div class="agent-name">Code Architect</div>
+          <div class="agent-desc">Writes, reviews, and deploys smart contracts and dApps with precision.</div>
+          <div class="agent-stats">
+            <div class="stat">
+              <div class="stat-label">Speed</div>
+              <div class="stat-bar"><div class="stat-fill" style="width: 85%"></div></div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Accuracy</div>
+              <div class="stat-bar"><div class="stat-fill" style="width: 98%"></div></div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Risk</div>
+              <div class="stat-bar"><div class="stat-fill" style="width: 15%"></div></div>
+            </div>
+          </div>
+          <div class="agent-abilities">
+            <span class="ability-tag">Solidity</span>
+            <span class="ability-tag">Rust</span>
+            <span class="ability-tag">Audit</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agent 6: Data Sentinel -->
+      <div class="agent-card" data-agent="sentinel" onclick="selectAgent('sentinel')">
+        <div class="selection-badge">✓</div>
+        <div class="agent-card-inner">
+          <div class="agent-avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+              <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+            </svg>
+          </div>
+          <div class="agent-class">Analytics Class</div>
+          <div class="agent-name">Data Sentinel</div>
+          <div class="agent-desc">Monitors on-chain activity, whale movements, and generates real-time insights.</div>
+          <div class="agent-stats">
+            <div class="stat">
+              <div class="stat-label">Speed</div>
+              <div class="stat-bar"><div class="stat-fill" style="width: 90%"></div></div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Depth</div>
+              <div class="stat-bar"><div class="stat-fill" style="width: 100%"></div></div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Risk</div>
+              <div class="stat-bar"><div class="stat-fill" style="width: 10%"></div></div>
+            </div>
+          </div>
+          <div class="agent-abilities">
+            <span class="ability-tag">Whales</span>
+            <span class="ability-tag">DEX</span>
+            <span class="ability-tag">Dashboards</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="features-section" id="features">
+      <div class="features-header">
+        <h2>What It Does</h2>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+          </div>
+          <div class="feature-title">Runs on Your Machine</div>
+          <div class="feature-desc">Mac, Windows, or Linux. Anthropic, OpenAI, or local models. Private by default—your data stays yours.</div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+            </svg>
+          </div>
+          <div class="feature-title">Any Chat App</div>
+          <div class="feature-desc">Talk to it on WhatsApp, Telegram, Discord, Slack, Signal, or iMessage. Works in DMs and group chats.</div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M12 1v4"></path>
+              <path d="M12 19v4"></path>
+              <path d="M4.22 4.22l2.83 2.83"></path>
+              <path d="M16.95 16.95l2.83 2.83"></path>
+              <path d="M1 12h4"></path>
+              <path d="M19 12h4"></path>
+              <path d="M4.22 19.78l2.83-2.83"></path>
+              <path d="M16.95 7.05l2.83-2.83"></path>
+            </svg>
+          </div>
+          <div class="feature-title">Persistent Memory</div>
+          <div class="feature-desc">Remembers you and becomes uniquely yours. Your preferences, your context, your AI.</div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+          </div>
+          <div class="feature-title">Browser Control</div>
+          <div class="feature-desc">It can browse the web, fill forms, and extract data from any site.</div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="4 17 10 11 4 5"></polyline>
+              <line x1="12" y1="19" x2="20" y2="19"></line>
+            </svg>
+          </div>
+          <div class="feature-title">Full System Access</div>
+          <div class="feature-desc">Read and write files, run shell commands, execute scripts. Full access or sandboxed—your choice.</div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19.439 7.85c-.049.322.059.648.289.878l1.568 1.568c.47.47.706 1.087.706 1.704s-.235 1.233-.706 1.704l-1.611 1.611a.98.98 0 0 1-.837.276c-.47-.07-.802-.48-.968-.925a2.501 2.501 0 1 0-3.214 3.214c.446.166.855.497.925.968a.979.979 0 0 1-.276.837l-1.61 1.61a2.404 2.404 0 0 1-1.705.707 2.402 2.402 0 0 1-1.704-.706l-1.568-1.568a1.026 1.026 0 0 0-.877-.29c-.493.074-.84.504-1.02.968a2.5 2.5 0 1 1-3.237-3.237c.464-.18.894-.527.967-1.02a1.026 1.026 0 0 0-.289-.877l-1.568-1.568A2.402 2.402 0 0 1 1.998 12c0-.617.236-1.234.706-1.704L4.315 8.685a.98.98 0 0 1 .837-.276c.47.07.802.48.968.925a2.501 2.501 0 1 0 3.214-3.214c-.446-.166-.855-.497-.925-.968a.979.979 0 0 1 .276-.837l1.61-1.61a2.404 2.404 0 0 1 1.705-.707c.617 0 1.234.236 1.704.706l1.568 1.568c.23.23.556.338.877.29.493-.074.84-.504 1.02-.968a2.5 2.5 0 1 1 3.237 3.237c-.464.18-.894.527-.967 1.02Z"></path>
+            </svg>
+          </div>
+          <div class="feature-title">Skills & Plugins</div>
+          <div class="feature-desc">Extend with community skills or build your own. It can even write its own.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Integrations Section -->
+    <div class="integrations-section" id="integrations">
+      <div class="integrations-header">
+        <h2>Works With Everything</h2>
+      </div>
+      <div class="integrations-grid">
+        <div class="integration-badge"><i class="fa-brands fa-whatsapp icon-whatsapp"></i> WhatsApp</div>
+        <div class="integration-badge"><i class="fa-brands fa-telegram icon-telegram"></i> Telegram</div>
+        <div class="integration-badge"><i class="fa-brands fa-discord icon-discord"></i> Discord</div>
+        <div class="integration-badge"><i class="fa-brands fa-slack icon-slack"></i> Slack</div>
+        <div class="integration-badge"><i class="fa-brands fa-x-twitter icon-twitter"></i> Twitter</div>
+        <div class="integration-badge"><i class="fa-brands fa-reddit icon-reddit"></i> Reddit</div>
+        <div class="integration-badge"><svg class="icon-openai" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.8956zm16.0993 3.8558L12.6 8.3829l2.02-1.1638a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"/></svg> GPT</div>
+      </div>
+      <div class="integrations-grid">
+        <div class="integration-badge"><svg class="icon-claude" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.709 15.955l4.72-2.647.08-.08 2.726-1.529-2.646-1.449-4.8-2.647c-.4-.24-.88-.24-1.28 0l-2.166 1.209c-.4.24-.64.64-.64 1.12v4.894c0 .48.24.88.64 1.12l2.086 1.129c.4.24.88.24 1.28-.12zm14.582 0l-4.72-2.647-.08-.08-2.726-1.529 2.646-1.449 4.8-2.647c.4-.24.88-.24 1.28 0l2.166 1.209c.4.24.64.64.64 1.12v4.894c0 .48-.24.88-.64 1.12l-2.086 1.129c-.4.24-.88.24-1.28-.12z"/><path d="M12 22.516l-4.72-2.647c-.4-.24-.64-.64-.64-1.12v-2.407l2.726 1.529.08.08 2.554 1.449 2.554-1.449.08-.08 2.726-1.529v2.407c0 .48-.24.88-.64 1.12L12 22.516z"/><path d="M12 1.484l4.72 2.647c.4.24.64.64.64 1.12v2.407l-2.726-1.529-.08-.08L12 4.6l-2.554 1.449-.08.08L6.64 7.658V5.251c0-.48.24-.88.64-1.12L12 1.484z"/></svg> Claude</div>
+        <div class="integration-badge"><i class="fa-brands fa-github icon-github"></i> GitHub</div>
+        <div class="integration-badge"><i class="fa-brands fa-spotify icon-spotify"></i> Spotify</div>
+        <div class="integration-badge"><i class="fa-brands fa-google icon-gmail"></i> Gmail</div>
+        <div class="integration-badge"><svg class="icon-notion" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.98-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.84-.046.933-.56.933-1.167V6.354c0-.606-.233-.933-.746-.886l-15.177.887c-.56.046-.747.326-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952l1.448.327s0 .84-1.168.84l-3.22.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM2.881.166l13.635-.933c1.68-.14 2.101.093 2.802.607l3.876 2.66c.466.326.606.606.606 1.12v17.32c0 1.026-.373 1.633-1.68 1.726l-15.457.933c-.98.047-1.448-.093-1.961-.747l-3.13-4.06c-.56-.746-.793-1.306-.793-1.96V2.012c0-.84.374-1.54 1.448-1.633z"/></svg> Notion</div>
+        <div class="integration-badge"><svg class="icon-solana" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.28 6.882a.67.67 0 0 0-.47-.195H4.2a.335.335 0 0 0-.236.572l2.569 2.57a.67.67 0 0 0 .47.194h12.61a.335.335 0 0 0 .237-.571l-2.57-2.57zm0 10.236a.67.67 0 0 0-.47-.195H4.2a.335.335 0 0 0-.236.572l2.569 2.569a.67.67 0 0 0 .47.195h12.61a.335.335 0 0 0 .237-.572l-2.57-2.569zm0-5.118a.67.67 0 0 1-.47.195H4.2a.335.335 0 0 1-.236-.572l2.569-2.57a.67.67 0 0 1 .47-.194h12.61a.335.335 0 0 1 .237.572l-2.57 2.569z"/></svg> Solana</div>
+      </div>
+      <div class="view-integrations">
+        View all integrations <span>→</span>
+      </div>
+    </div>
+
+    <!-- Selection Footer -->
+    <div class="selection-footer" id="selection-footer">
+      <div class="selected-agent-preview">
+        <div class="selected-avatar-mini" id="selected-avatar">🔍</div>
+        <div class="selected-info">
+          <h4 id="selected-name">Alpha Hunter</h4>
+          <p id="selected-class">Research Class</p>
+        </div>
+      </div>
+      <button class="proceed-btn" onclick="proceedToConfigure()">
+        <span>Configure Agent</span>
+        <span class="arrow">→</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== CONFIGURE SCREEN ==================== -->
+  <div class="screen hidden" id="configure-screen">
+    <div class="config-header">
+      <button class="back-btn" onclick="backToSelection()">←</button>
+      <div class="config-title-area">
+        <h1>
+          <span id="config-avatar">🔍</span>
+          <span id="config-agent-title">Alpha Hunter</span>
+          <span class="agent-badge" id="config-badge">Research</span>
+        </h1>
+        <p>Configure your agent's parameters and deploy</p>
+        <p class="config-hint">New to this? Default settings are already optimized — feel free to skip straight to deploy.</p>
+      </div>
+    </div>
+
+    <div class="deploy-card">
+      <div class="deploy-card-header">
+        <div class="deploy-card-title">
+          <span style="font-size:1.5rem;">⚙️</span>
+          <h2>Agent Configuration</h2>
+        </div>
+        <div class="status-badge" id="status-badge">Standby</div>
+      </div>
+
+      <div class="settings-container">
+        <!-- Core Settings -->
+        <div class="settings-section expanded" id="section-core">
+          <div class="settings-header" onclick="toggleSection('core')">
+            <div class="settings-header-left">
+              <div class="settings-icon">⚙️</div>
+              <div>
+                <div class="settings-title">Core Configuration</div>
+                <div class="settings-subtitle">Agent identity, model, and runtime</div>
+              </div>
+            </div>
+            <div class="settings-toggle">▼</div>
+          </div>
+          <div class="settings-body">
+            <div class="settings-content">
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Agent Name</label>
+                  <input type="text" id="agent-name" placeholder="my-agent" value="moltbuilds-alpha">
+                </div>
+                <div class="form-group">
+                  <label>Agent Version</label>
+                  <input type="text" value="1.0.0" placeholder="1.0.0">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Base Model</label>
+                  <select id="base-model">
+                    <option value="gpt-4-turbo">GPT-4 Turbo</option>
+                    <option value="gpt-4o" selected>GPT-4o</option>
+                    <option value="claude-3-opus">Claude 3 Opus</option>
+                    <option value="claude-3-sonnet">Claude 3.5 Sonnet</option>
+                    <option value="llama-3-70b">Llama 3 70B</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Runtime Environment</label>
+                  <select>
+                    <option value="node-20">Node.js 20 LTS</option>
+                    <option value="node-22" selected>Node.js 22</option>
+                    <option value="bun">Bun</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Network Settings -->
+        <div class="settings-section" id="section-network">
+          <div class="settings-header" onclick="toggleSection('network')">
+            <div class="settings-header-left">
+              <div class="settings-icon">🌐</div>
+              <div>
+                <div class="settings-title">Network & APIs</div>
+                <div class="settings-subtitle">External connections and rate limits</div>
+              </div>
+            </div>
+            <div class="settings-toggle">▼</div>
+          </div>
+          <div class="settings-body">
+            <div class="settings-content">
+              <div class="checkbox-grid" id="api-checkboxes">
+                <!-- Populated dynamically -->
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Request Timeout (ms)</label>
+                  <input type="number" value="30000" min="5000" max="120000" step="1000">
+                </div>
+                <div class="form-group">
+                  <label>Max Retries</label>
+                  <select>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3" selected>3</option>
+                    <option value="5">5</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Memory Settings -->
+        <div class="settings-section" id="section-memory">
+          <div class="settings-header" onclick="toggleSection('memory')">
+            <div class="settings-header-left">
+              <div class="settings-icon">🧠</div>
+              <div>
+                <div class="settings-title">Memory & Context</div>
+                <div class="settings-subtitle">Conversation history and vector storage</div>
+              </div>
+            </div>
+            <div class="settings-toggle">▼</div>
+          </div>
+          <div class="settings-body">
+            <div class="settings-content">
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Context Window</label>
+                  <select>
+                    <option value="8192">8K tokens</option>
+                    <option value="16384">16K tokens</option>
+                    <option value="32768" selected>32K tokens</option>
+                    <option value="128000">128K tokens</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Memory Type</label>
+                  <select>
+                    <option value="buffer">Buffer Memory</option>
+                    <option value="summary" selected>Summary Memory</option>
+                    <option value="vector">Vector Store</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tools Settings -->
+        <div class="settings-section" id="section-tools">
+          <div class="settings-header" onclick="toggleSection('tools')">
+            <div class="settings-header-left">
+              <div class="settings-icon">🔧</div>
+              <div>
+                <div class="settings-title">Tools & Plugins</div>
+                <div class="settings-subtitle">Agent capabilities and extensions</div>
+              </div>
+            </div>
+            <div class="settings-toggle">▼</div>
+          </div>
+          <div class="settings-body">
+            <div class="settings-content">
+              <div class="checkbox-grid" id="tools-checkboxes">
+                <!-- Populated dynamically -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Security Settings -->
+        <div class="settings-section" id="section-security">
+          <div class="settings-header" onclick="toggleSection('security')">
+            <div class="settings-header-left">
+              <div class="settings-icon">🔒</div>
+              <div>
+                <div class="settings-title">Security & Guardrails</div>
+                <div class="settings-subtitle">Safety limits and access control</div>
+              </div>
+            </div>
+            <div class="settings-toggle">▼</div>
+          </div>
+          <div class="settings-body">
+            <div class="settings-content">
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Auth Provider</label>
+                  <select>
+                    <option value="none">None (Dev Mode)</option>
+                    <option value="jwt" selected>JWT Tokens</option>
+                    <option value="oauth">OAuth 2.0</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Content Filter Level</label>
+                  <select>
+                    <option value="low">Low</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="high">High</option>
+                  </select>
+                </div>
+              </div>
+              <div class="checkbox-grid">
+                <label class="checkbox-item"><input type="checkbox" checked> Rate Limiting</label>
+                <label class="checkbox-item"><input type="checkbox" checked> Input Validation</label>
+                <label class="checkbox-item"><input type="checkbox" checked> Output Sanitization</label>
+                <label class="checkbox-item"><input type="checkbox" checked> Prompt Guard</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Deployment Settings -->
+        <div class="settings-section" id="section-deploy">
+          <div class="settings-header" onclick="toggleSection('deploy')">
+            <div class="settings-header-left">
+              <div class="settings-icon">🚀</div>
+              <div>
+                <div class="settings-title">Deployment Options</div>
+                <div class="settings-subtitle">Infrastructure and scaling</div>
+              </div>
+            </div>
+            <div class="settings-toggle">▼</div>
+          </div>
+          <div class="settings-body">
+            <div class="settings-content">
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Platform</label>
+                  <select>
+                    <option value="local">Local Machine</option>
+                    <option value="docker" selected>Docker Container</option>
+                    <option value="kubernetes">Kubernetes</option>
+                    <option value="vercel">Vercel Edge</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Region</label>
+                  <select>
+                    <option value="auto" selected>Auto (Closest)</option>
+                    <option value="us-east">US East</option>
+                    <option value="eu-west">EU West</option>
+                    <option value="asia-pacific">Asia Pacific</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Deploy Button -->
+      <div class="deploy-section">
+        <button class="deploy-btn" onclick="startDeployment()">
+          <span>⚡</span>
+          <span>Initialize Deployment Sequence</span>
+        </button>
+        <p class="deploy-hint">Click to compile configuration and generate installation package</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Simulation Modal -->
+  <div class="modal-overlay" id="simulation-modal">
+    <div class="modal">
+      <div class="terminal">
+        <div class="terminal-header">
+          <div class="terminal-dot red"></div>
+          <div class="terminal-dot yellow"></div>
+          <div class="terminal-dot green"></div>
+          <span class="terminal-title">moltbuilds-cli — deployment sequence</span>
+        </div>
+        <div class="terminal-body" id="terminal-output"></div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-bar"></div>
+        </div>
+        <div class="progress-text">
+          <span id="progress-stage">Initializing...</span>
+          <span id="progress-percent">0%</span>
+        </div>
+      </div>
+      <div class="status-indicator" id="status-indicator">
+        <div class="spinner"></div>
+        <span>Compiling agent configuration...</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Installation Modal -->
+  <div class="modal-overlay" id="install-modal">
+    <div class="modal install-modal">
+      <div class="install-header">
+        <h2>
+          <div class="check-icon">✓</div>
+          Agent Ready for Deployment
+        </h2>
+        <button class="close-btn" onclick="closeInstallModal()">×</button>
+      </div>
+      
+      <div class="install-body">
+        <div class="install-intro">
+          <h3>🎉 Configuration Compiled Successfully</h3>
+          <p>Your <strong id="final-agent-name">moltbuilds-alpha</strong> agent is ready. Follow the installation steps below.</p>
+        </div>
+
+        <div class="install-step">
+          <div class="step-header">
+            <div class="step-number">1</div>
+            <div class="step-title">Install Moltbuilds CLI</div>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-lang">bash</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <div class="code-block-body">npm install -g @moltbuilds/cli@latest</div>
+          </div>
+        </div>
+
+        <div class="install-step">
+          <div class="step-header">
+            <div class="step-number">2</div>
+            <div class="step-title">Initialize Agent Project</div>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-lang">bash</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <div class="code-block-body" id="init-command">moltbuilds init moltbuilds-alpha --template=agent-v2 --model=gpt-4o</div>
+          </div>
+          <div class="advice-box">
+            <h4>💡 Pro Tip</h4>
+            <p>Add <code>--tools=browser,calculator</code> to pre-configure tools during init.</p>
+          </div>
+        </div>
+
+        <div class="install-step">
+          <div class="step-header">
+            <div class="step-number">3</div>
+            <div class="step-title">Install & Build</div>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-lang">bash</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <div class="code-block-body" id="build-command">cd moltbuilds-alpha && npm install && npm run build</div>
+          </div>
+        </div>
+
+        <div class="install-step">
+          <div class="step-header">
+            <div class="step-number">4</div>
+            <div class="step-title">Start Agent</div>
+          </div>
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-lang">bash</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <div class="code-block-body">npm run start</div>
+          </div>
+          <div class="advice-box">
+            <h4>🚀 Production Deployment</h4>
+            <ul>
+              <li>Use <code>pm2 start npm --name "agent" -- run start</code> for 24/7 operation</li>
+              <li>Run <code>moltbuilds doctor</code> to verify configuration</li>
+              <li>Set <code>LOG_LEVEL=debug</code> for troubleshooting</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="install-footer">
+        <button class="btn btn-secondary" onclick="closeInstallModal()">Close</button>
+        <button class="btn btn-primary" onclick="copyAllCommands()">📋 Copy All Commands</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Agent Data
+    const agents = {
+      alpha: {
+        name: 'Alpha Hunter',
+        class: 'Research',
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path><path d="M11 8v6"></path><path d="M8 11h6"></path></svg>`,
+        color: '#00ff88',
+        apis: ['OpenAI API', 'Web Search', 'Twitter API', 'Discord API', 'Dune Analytics'],
+        tools: ['Web Scraper', 'Sentiment Analyzer', 'Alert System', 'RSS Parser', 'Telegram Bot']
+      },
+      content: {
+        name: 'Content Creator',
+        class: 'Creative',
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>`,
+        color: '#ff3b8b',
+        apis: ['OpenAI API', 'Anthropic API', 'Twitter API', 'DALL-E 3', 'Imgur API'],
+        tools: ['Thread Generator', 'Meme Maker', 'Scheduler', 'Image Editor', 'Analytics']
+      },
+      trading: {
+        name: 'Trading Bot',
+        class: 'Finance',
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>`,
+        color: '#ffd93d',
+        apis: ['OpenAI API', 'Jupiter API', 'Birdeye API', 'Helius RPC', 'CoinGecko'],
+        tools: ['Order Executor', 'Position Manager', 'P&L Tracker', 'Alert System', 'Wallet Connect']
+      },
+      airdrop: {
+        name: 'Airdrop Farmer',
+        class: 'Hunter',
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="7.5 4.21 12 6.81 16.5 4.21"></polyline><polyline points="7.5 19.79 7.5 14.6 3 12"></polyline><polyline points="21 12 16.5 14.6 16.5 19.79"></polyline><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>`,
+        color: '#a855f7',
+        apis: ['OpenAI API', 'DeBank API', 'Zapper API', 'LayerZero', 'Multiple RPCs'],
+        tools: ['Wallet Manager', 'TX Automator', 'Points Tracker', 'Bridge Helper', 'Gas Optimizer']
+      },
+      code: {
+        name: 'Code Architect',
+        class: 'Builder',
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline><line x1="14" y1="4" x2="10" y2="20"></line></svg>`,
+        color: '#00d9ff',
+        apis: ['OpenAI API', 'Anthropic API', 'GitHub API', 'Etherscan', 'Solscan'],
+        tools: ['Code Generator', 'Auditor', 'Deployer', 'Test Runner', 'Doc Generator']
+      },
+      sentinel: {
+        name: 'Data Sentinel',
+        class: 'Analytics',
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>`,
+        color: '#ff6b35',
+        apis: ['OpenAI API', 'Dune Analytics', 'Flipside', 'The Graph', 'Nansen'],
+        tools: ['Whale Tracker', 'DEX Monitor', 'Dashboard Builder', 'Report Generator', 'Alert System']
+      }
+    };
+
+    let selectedAgentKey = null;
+
+    function selectAgent(agentKey) {
+      // Deselect all
+      document.querySelectorAll('.agent-card').forEach(card => {
+        card.classList.remove('selected');
+      });
+
+      // Select clicked
+      const card = document.querySelector(`.agent-card[data-agent="${agentKey}"]`);
+      card.classList.add('selected');
+
+      selectedAgentKey = agentKey;
+      const agent = agents[agentKey];
+
+      // Update footer preview
+      document.getElementById('selected-avatar').innerHTML = agent.icon;
+      document.getElementById('selected-avatar').style.borderColor = agent.color;
+      document.getElementById('selected-avatar').style.color = agent.color;
+      document.getElementById('selected-name').textContent = agent.name;
+      document.getElementById('selected-class').textContent = agent.class + ' Class';
+
+      // Show footer
+      document.getElementById('selection-footer').classList.add('visible');
+
+      // Update background color theme
+      document.querySelector('.bg-glow').style.background = `radial-gradient(circle, ${agent.color}22 0%, transparent 60%)`;
+    }
+
+    function proceedToConfigure() {
+      if (!selectedAgentKey) return;
+
+      const agent = agents[selectedAgentKey];
+
+      // Update configure screen
+      document.getElementById('config-avatar').innerHTML = agent.icon;
+      document.getElementById('config-avatar').style.color = agent.color;
+      document.getElementById('config-agent-title').textContent = agent.name;
+      document.getElementById('config-badge').textContent = agent.class;
+      document.getElementById('config-badge').style.background = agent.color;
+      document.getElementById('agent-name').value = `moltbuilds-${selectedAgentKey}`;
+
+      // Populate API checkboxes
+      const apiContainer = document.getElementById('api-checkboxes');
+      apiContainer.innerHTML = agent.apis.map((api, i) => `
+        <label class="checkbox-item"><input type="checkbox" ${i < 3 ? 'checked' : ''}> ${api}</label>
+      `).join('');
+
+      // Populate tools checkboxes
+      const toolsContainer = document.getElementById('tools-checkboxes');
+      toolsContainer.innerHTML = agent.tools.map((tool, i) => `
+        <label class="checkbox-item"><input type="checkbox" ${i < 4 ? 'checked' : ''}> ${tool}</label>
+      `).join('');
+
+      // Switch screens
+      document.getElementById('selection-screen').classList.add('hidden');
+      document.getElementById('configure-screen').classList.remove('hidden');
+
+      // Set CSS variable for color theme
+      document.documentElement.style.setProperty('--config-color', agent.color);
+    }
+
+    function backToSelection() {
+      document.getElementById('configure-screen').classList.add('hidden');
+      document.getElementById('selection-screen').classList.remove('hidden');
+    }
+
+    function toggleSection(section) {
+      const el = document.getElementById('section-' + section);
+      const wasExpanded = el.classList.contains('expanded');
+      
+      document.querySelectorAll('.settings-section').forEach(s => {
+        s.classList.remove('expanded');
+      });
+      
+      if (!wasExpanded) {
+        el.classList.add('expanded');
+      }
+    }
+
+    // Terminal simulation
+    const terminalLines = [
+      { text: '$ moltbuilds deploy --config=generated.json', type: 'command', delay: 0 },
+      { text: '', delay: 200 },
+      { text: '⚡ Moltbuilds CLI v2.4.1', type: 'info', delay: 300 },
+      { text: '───────────────────────────────────────────────', type: 'dim', delay: 100 },
+      { text: '', delay: 200 },
+      { text: '[1/6] Validating configuration schema...', type: 'info', delay: 400 },
+      { text: '  ✓ Schema validation passed', type: 'success', delay: 300 },
+      { text: '', delay: 200 },
+      { text: '[2/6] Resolving dependencies...', type: 'info', delay: 400 },
+      { text: '  → @moltbuilds/core@2.4.1', type: 'dim', delay: 100 },
+      { text: '  → langchain@0.1.25', type: 'dim', delay: 100 },
+      { text: '  ✓ Resolved 247 packages', type: 'success', delay: 300 },
+      { text: '', delay: 200 },
+      { text: '[3/6] Compiling agent runtime...', type: 'info', delay: 500 },
+      { text: '  → Transpiling TypeScript...', type: 'dim', delay: 300 },
+      { text: '  → Bundling with esbuild...', type: 'dim', delay: 400 },
+      { text: '  ✓ Build completed in 2.34s', type: 'success', delay: 300 },
+      { text: '', delay: 200 },
+      { text: '[4/6] Initializing vector store...', type: 'info', delay: 400 },
+      { text: '  ✓ Vector store initialized', type: 'success', delay: 300 },
+      { text: '', delay: 200 },
+      { text: '[5/6] Configuring tools...', type: 'info', delay: 400 },
+      { text: '  ✓ Tools configured', type: 'success', delay: 300 },
+      { text: '', delay: 200 },
+      { text: '[6/6] Finalizing package...', type: 'info', delay: 500 },
+      { text: '  ✓ Package ready', type: 'success', delay: 300 },
+      { text: '', delay: 200 },
+      { text: '───────────────────────────────────────────────', type: 'dim', delay: 100 },
+      { text: '✨ Deployment package compiled successfully!', type: 'success', delay: 300 },
+    ];
+
+    let currentLine = 0;
+
+    function startDeployment() {
+      document.getElementById('status-badge').textContent = 'Deploying';
+      document.getElementById('simulation-modal').classList.add('active');
+      document.getElementById('terminal-output').innerHTML = '';
+      document.getElementById('progress-bar').style.width = '0%';
+      document.getElementById('progress-percent').textContent = '0%';
+      
+      currentLine = 0;
+      runSimulation();
+    }
+
+    function runSimulation() {
+      if (currentLine >= terminalLines.length) {
+        setTimeout(() => {
+          document.getElementById('simulation-modal').classList.remove('active');
+          document.getElementById('install-modal').classList.add('active');
+          updateInstallModal();
+          document.getElementById('status-badge').textContent = 'Ready';
+          document.getElementById('status-badge').classList.add('ready');
+        }, 1000);
+        return;
+      }
+
+      const line = terminalLines[currentLine];
+      const terminal = document.getElementById('terminal-output');
+      
+      setTimeout(() => {
+        const lineEl = document.createElement('div');
+        lineEl.className = 'terminal-line';
+        
+        if (line.type === 'command') {
+          lineEl.innerHTML = `<span class="prompt">❯</span> <span class="command">${line.text.substring(2)}</span>`;
+        } else if (line.type) {
+          lineEl.innerHTML = `<span class="${line.type}">${line.text}</span>`;
+        } else {
+          lineEl.textContent = line.text;
+        }
+        
+        terminal.appendChild(lineEl);
+        terminal.scrollTop = terminal.scrollHeight;
+        
+        const progress = Math.round((currentLine / terminalLines.length) * 100);
+        document.getElementById('progress-bar').style.width = progress + '%';
+        document.getElementById('progress-percent').textContent = progress + '%';
+        
+        currentLine++;
+        runSimulation();
+      }, line.delay);
+    }
+
+    function updateInstallModal() {
+      const agentName = document.getElementById('agent-name').value || 'moltbuilds-alpha';
+      const model = document.getElementById('base-model').value;
+      
+      document.getElementById('final-agent-name').textContent = agentName;
+      document.getElementById('init-command').textContent = `moltbuilds init ${agentName} --template=agent-v2 --model=${model}`;
+      document.getElementById('build-command').textContent = `cd ${agentName} && npm install && npm run build`;
+    }
+
+    function closeInstallModal() {
+      document.getElementById('install-modal').classList.remove('active');
+    }
+
+    function copyCode(btn) {
+      const codeBlock = btn.closest('.code-block');
+      const code = codeBlock.querySelector('.code-block-body').textContent;
+      
+      navigator.clipboard.writeText(code).then(() => {
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'Copy';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+
+    function copyAllCommands() {
+      const agentName = document.getElementById('agent-name').value || 'moltbuilds-alpha';
+      const model = document.getElementById('base-model').value;
+      
+      const commands = `# Moltbuilds Agent Installation
+npm install -g @moltbuilds/cli@latest
+moltbuilds init ${agentName} --template=agent-v2 --model=${model}
+cd ${agentName} && npm install && npm run build
+npm run start`;
+      
+      navigator.clipboard.writeText(commands).then(() => {
+        const btn = document.querySelector('.install-footer .btn-primary');
+        btn.textContent = '✓ Copied!';
+        setTimeout(() => btn.textContent = '📋 Copy All Commands', 2000);
+      });
+    }
+  </script>
+</body>
+</html>

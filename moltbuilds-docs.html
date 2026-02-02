@@ -1,0 +1,1817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moltbuilds Docs | Build Autonomous AI Agents</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red: #ff3b3b;
+      --red-glow: rgba(255, 59, 59, 0.5);
+      --red-dim: rgba(255, 59, 59, 0.15);
+      --white: #ffffff;
+      --black: #000000;
+      --gray-900: #0a0a0a;
+      --gray-800: #111111;
+      --gray-700: #1a1a1a;
+      --gray-600: #2a2a2a;
+      --gray-500: #3d3d3d;
+      --gray-400: #6b6b6b;
+      --gray-300: #8c8c8c;
+      --gray-200: #b3b3b3;
+      --green: #00ff88;
+      --yellow: #ffd93d;
+      --cyan: #00d9ff;
+      --purple: #a855f7;
+      --orange: #ff6b35;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--black);
+      color: var(--gray-200);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 280px;
+      height: 100vh;
+      background: var(--gray-900);
+      border-right: 1px solid rgba(255,255,255,0.06);
+      padding: 2rem 0;
+      overflow-y: auto;
+      z-index: 100;
+    }
+
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0 1.5rem;
+      margin-bottom: 2rem;
+      text-decoration: none;
+    }
+
+    .sidebar-logo-icon {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .sidebar-logo-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .sidebar-logo-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .sidebar-logo-badge {
+      padding: 0.2rem 0.5rem;
+      background: var(--red-dim);
+      border: 1px solid var(--red);
+      border-radius: 6px;
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--red);
+      text-transform: uppercase;
+    }
+
+    .sidebar-section {
+      margin-bottom: 1.5rem;
+    }
+
+    .sidebar-section-title {
+      padding: 0 1.5rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.75rem;
+    }
+
+    .sidebar-link {
+      display: block;
+      padding: 0.6rem 1.5rem;
+      color: var(--gray-400);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      border-left: 3px solid transparent;
+    }
+
+    .sidebar-link:hover {
+      color: var(--white);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .sidebar-link.active {
+      color: var(--red);
+      background: var(--red-dim);
+      border-left-color: var(--red);
+    }
+
+    .sidebar-link svg {
+      width: 16px;
+      height: 16px;
+      margin-right: 0.5rem;
+      vertical-align: -2px;
+      opacity: 0.6;
+    }
+
+    /* Main Content */
+    .main {
+      margin-left: 280px;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .header {
+      position: sticky;
+      top: 0;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 50;
+    }
+
+    .header-search {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 1rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      width: 320px;
+    }
+
+    .header-search svg {
+      width: 18px;
+      height: 18px;
+      color: var(--gray-500);
+    }
+
+    .header-search input {
+      flex: 1;
+      background: none;
+      border: none;
+      color: var(--white);
+      font-family: inherit;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .header-search input::placeholder {
+      color: var(--gray-500);
+    }
+
+    .header-search kbd {
+      padding: 0.2rem 0.5rem;
+      background: rgba(255,255,255,0.1);
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 0.7rem;
+      color: var(--gray-400);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .header-btn {
+      padding: 0.6rem 1.25rem;
+      background: var(--red);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .header-btn:hover {
+      background: #ff5555;
+      transform: translateY(-1px);
+    }
+
+    .header-link {
+      color: var(--gray-400);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .header-link:hover {
+      color: var(--white);
+    }
+
+    .header-link.header-twitter {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Content */
+    .content {
+      max-width: 900px;
+      padding: 3rem 4rem;
+    }
+
+    /* Hero */
+    .hero {
+      margin-bottom: 4rem;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.8rem;
+      background: var(--red-dim);
+      border: 1px solid rgba(255,59,59,0.3);
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--red);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--gray-400);
+      max-width: 600px;
+    }
+
+    /* Section */
+    .section {
+      margin-bottom: 4rem;
+    }
+
+    .section-anchor {
+      display: block;
+      position: relative;
+      top: -100px;
+      visibility: hidden;
+    }
+
+    h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--white);
+      margin: 2rem 0 1rem;
+    }
+
+    h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--gray-200);
+      margin: 1.5rem 0 0.75rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      color: var(--gray-300);
+    }
+
+    a {
+      color: var(--red);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    ul, ol {
+      margin: 1rem 0 1.5rem 1.5rem;
+      color: var(--gray-300);
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    strong {
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    /* Code */
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85em;
+      padding: 0.2rem 0.4rem;
+      background: rgba(255,255,255,0.08);
+      border-radius: 4px;
+      color: var(--cyan);
+    }
+
+    .code-block {
+      margin: 1.5rem 0;
+      background: var(--gray-800);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .code-block-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1rem;
+      background: rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .code-block-lang {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      text-transform: uppercase;
+    }
+
+    .code-block-copy {
+      padding: 0.35rem 0.75rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      color: var(--gray-400);
+      font-family: inherit;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .code-block-copy:hover {
+      background: rgba(255,255,255,0.1);
+      color: var(--white);
+    }
+
+    .code-block-copy.copied {
+      background: rgba(0,255,136,0.15);
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .code-block pre {
+      padding: 1.25rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--gray-200);
+    }
+
+    .code-block pre .comment { color: var(--gray-500); }
+    .code-block pre .keyword { color: var(--purple); }
+    .code-block pre .string { color: var(--green); }
+    .code-block pre .number { color: var(--orange); }
+    .code-block pre .function { color: var(--cyan); }
+
+    /* Cards Grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    @media (max-width: 700px) {
+      .cards-grid { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: rgba(255,59,59,0.3);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--red-dim);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      color: var(--red);
+    }
+
+    .card-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .card h4 {
+      margin: 0 0 0.5rem;
+      color: var(--white);
+    }
+
+    .card p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--gray-400);
+    }
+
+    /* Table */
+    .table-wrapper {
+      margin: 1.5rem 0;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    th {
+      text-align: left;
+      padding: 0.75rem 1rem;
+      background: rgba(255,255,255,0.03);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      color: var(--gray-300);
+    }
+
+    tr:hover td {
+      background: rgba(255,255,255,0.02);
+    }
+
+    /* Callout */
+    .callout {
+      margin: 1.5rem 0;
+      padding: 1.25rem;
+      border-radius: 12px;
+      border-left: 4px solid;
+    }
+
+    .callout-info {
+      background: rgba(0,217,255,0.1);
+      border-color: var(--cyan);
+    }
+
+    .callout-warning {
+      background: rgba(255,217,61,0.1);
+      border-color: var(--yellow);
+    }
+
+    .callout-tip {
+      background: rgba(0,255,136,0.1);
+      border-color: var(--green);
+    }
+
+    .callout-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+
+    .callout p {
+      margin: 0;
+      font-size: 0.9rem;
+    }
+
+    /* Steps */
+    .steps {
+      margin: 1.5rem 0;
+      padding-left: 0;
+      list-style: none;
+      counter-reset: step;
+    }
+
+    .steps li {
+      position: relative;
+      padding-left: 3rem;
+      margin-bottom: 1.5rem;
+      counter-increment: step;
+    }
+
+    .steps li::before {
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 28px;
+      height: 28px;
+      background: var(--red);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: white;
+    }
+
+    .steps li strong {
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    /* Tabs */
+    .tabs {
+      margin: 1.5rem 0;
+    }
+
+    .tabs-header {
+      display: flex;
+      gap: 0.25rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 1.5rem;
+    }
+
+    .tab-btn {
+      padding: 0.75rem 1.25rem;
+      background: none;
+      border: none;
+      color: var(--gray-400);
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: all 0.2s;
+    }
+
+    .tab-btn:hover {
+      color: var(--white);
+    }
+
+    .tab-btn.active {
+      color: var(--red);
+      border-bottom-color: var(--red);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 4rem;
+      padding: 2rem 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .footer-link {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      padding: 1rem 1.5rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      text-decoration: none;
+      transition: all 0.2s;
+      min-width: 200px;
+    }
+
+    .footer-link:hover {
+      border-color: rgba(255,59,59,0.3);
+      background: rgba(255,255,255,0.04);
+      text-decoration: none;
+    }
+
+    .footer-link-label {
+      font-size: 0.8rem;
+      color: var(--gray-500);
+    }
+
+    .footer-link-title {
+      font-weight: 600;
+      color: var(--white);
+    }
+
+    .footer-link.next {
+      text-align: right;
+    }
+
+    /* Mobile */
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; }
+      .content { padding: 2rem; }
+      .hero h1 { font-size: 2rem; }
+      .header-search { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <a href="moltbuilds.html" class="sidebar-logo">
+      <div class="sidebar-logo-icon"><img src="moltbuilds-logo.png" alt="Moltbuilds"></div>
+      <span class="sidebar-logo-text">Moltbuilds</span>
+    </a>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Getting Started</div>
+      <a href="#introduction" class="sidebar-link active">Introduction</a>
+      <a href="#quickstart" class="sidebar-link">Quickstart</a>
+      <a href="#installation" class="sidebar-link">Installation</a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Core Concepts</div>
+      <a href="#agents" class="sidebar-link">Agent Types</a>
+      <a href="#configuration" class="sidebar-link">Configuration</a>
+      <a href="#memory" class="sidebar-link">Memory System</a>
+      <a href="#tools" class="sidebar-link">Tools & Plugins</a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Integrations</div>
+      <a href="#llm-providers" class="sidebar-link">LLM Providers</a>
+      <a href="#messaging" class="sidebar-link">Messaging Apps</a>
+      <a href="#blockchain" class="sidebar-link">Blockchain</a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">API Reference</div>
+      <a href="#api-overview" class="sidebar-link">Overview</a>
+      <a href="#api-agents" class="sidebar-link">Agents API</a>
+      <a href="#api-tools" class="sidebar-link">Tools API</a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Resources</div>
+      <a href="#examples" class="sidebar-link">Examples</a>
+      <a href="#changelog" class="sidebar-link">Changelog</a>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" placeholder="Search documentation...">
+        <kbd>⌘K</kbd>
+      </div>
+      <div class="header-actions">
+        <a href="#" class="header-link header-twitter" target="_blank"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        <a href="moltbuilds.html" class="header-btn">Launch App</a>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <div class="content">
+      <!-- Hero -->
+      <div class="hero">
+        <div class="hero-badge">
+          <img src="moltbuilds-logo.png" alt="" style="width: 20px; height: 20px; border-radius: 4px;">
+          <span>Documentation</span>
+        </div>
+        <h1>Build Autonomous AI Agents</h1>
+        <p>Moltbuilds is an open-source framework for deploying AI agents that can research, trade, create content, and automate workflows across any platform.</p>
+      </div>
+
+      <!-- Introduction -->
+      <section class="section">
+        <span id="introduction" class="section-anchor"></span>
+        <h2>Introduction</h2>
+        <p>Moltbuilds provides a unified framework for building AI agents that operate autonomously across different domains. Whether you need an alpha hunter for crypto research, a content creator for social media, or a trading bot for DeFi, Moltbuilds handles the infrastructure so you can focus on strategy.</p>
+        
+        <div class="cards-grid">
+          <div class="card">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            </div>
+            <h4>Fast Setup</h4>
+            <p>Go from zero to deployed agent in under 5 minutes with our CLI tool.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+            </div>
+            <h4>Modular Design</h4>
+            <p>Mix and match tools, integrations, and memory systems.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h4>Secure by Default</h4>
+            <p>Built-in guardrails, rate limiting, and sandboxed execution.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            <h4>Multi-Platform</h4>
+            <p>Deploy to Discord, Telegram, Slack, or run headless.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quickstart -->
+      <section class="section">
+        <span id="quickstart" class="section-anchor"></span>
+        <h2>Quickstart</h2>
+        <p>Get your first agent running in 3 steps:</p>
+
+        <ol class="steps">
+          <li>
+            <strong>Install the CLI</strong>
+            <p>Install Moltbuilds globally using npm or your preferred package manager.</p>
+            <div class="code-block">
+              <div class="code-block-header">
+                <span class="code-block-lang">bash</span>
+                <button class="code-block-copy" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre>npm install -g @moltbuilds/cli</pre>
+            </div>
+          </li>
+          <li>
+            <strong>Initialize a new project</strong>
+            <p>Create a new agent project with your preferred template.</p>
+            <div class="code-block">
+              <div class="code-block-header">
+                <span class="code-block-lang">bash</span>
+                <button class="code-block-copy" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre>moltbuilds init my-agent --template=alpha-hunter</pre>
+            </div>
+          </li>
+          <li>
+            <strong>Configure and run</strong>
+            <p>Add your API keys to <code>.env</code> and start the agent.</p>
+            <div class="code-block">
+              <div class="code-block-header">
+                <span class="code-block-lang">bash</span>
+                <button class="code-block-copy" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="comment"># Add your keys to .env</span>
+OPENAI_API_KEY=sk-...
+TWITTER_API_KEY=...
+
+<span class="comment"># Start the agent</span>
+npm run start</pre>
+            </div>
+          </li>
+        </ol>
+
+        <div class="callout callout-tip">
+          <div class="callout-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4"/><path d="m6.34 6.34 2.83 2.83"/><path d="M2 12h4"/><path d="m6.34 17.66 2.83-2.83"/><path d="M12 18v4"/><path d="m17.66 17.66-2.83-2.83"/><path d="M18 12h4"/><path d="m17.66 6.34-2.83 2.83"/></svg>
+            Pro Tip
+          </div>
+          <p>Use <code>moltbuilds doctor</code> to verify your configuration and check for common issues before deploying.</p>
+        </div>
+      </section>
+
+      <!-- Installation -->
+      <section class="section">
+        <span id="installation" class="section-anchor"></span>
+        <h2>Installation</h2>
+        
+        <h3>Requirements</h3>
+        <ul>
+          <li><strong>Node.js</strong> 18.0 or higher (20+ recommended)</li>
+          <li><strong>npm</strong>, <strong>pnpm</strong>, or <strong>bun</strong></li>
+          <li>At least one LLM API key (OpenAI, Anthropic, or local model)</li>
+        </ul>
+
+        <h3>Package Managers</h3>
+        <div class="tabs">
+          <div class="tabs-header">
+            <button class="tab-btn active" onclick="showTab('npm')">npm</button>
+            <button class="tab-btn" onclick="showTab('pnpm')">pnpm</button>
+            <button class="tab-btn" onclick="showTab('bun')">bun</button>
+          </div>
+          <div id="tab-npm" class="tab-content active">
+            <div class="code-block">
+              <div class="code-block-header">
+                <span class="code-block-lang">bash</span>
+                <button class="code-block-copy" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre>npm install -g @moltbuilds/cli</pre>
+            </div>
+          </div>
+          <div id="tab-pnpm" class="tab-content">
+            <div class="code-block">
+              <div class="code-block-header">
+                <span class="code-block-lang">bash</span>
+                <button class="code-block-copy" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre>pnpm add -g @moltbuilds/cli</pre>
+            </div>
+          </div>
+          <div id="tab-bun" class="tab-content">
+            <div class="code-block">
+              <div class="code-block-header">
+                <span class="code-block-lang">bash</span>
+                <button class="code-block-copy" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre>bun add -g @moltbuilds/cli</pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Agents -->
+      <section class="section">
+        <span id="agents" class="section-anchor"></span>
+        <h2>Agent Types</h2>
+        <p>Moltbuilds ships with 6 pre-configured agent templates, each optimized for specific use cases.</p>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Agent</th>
+                <th>Class</th>
+                <th>Use Case</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Alpha Hunter</strong></td>
+                <td>Research</td>
+                <td>Scans CT, Discord, and on-chain data for alpha signals</td>
+              </tr>
+              <tr>
+                <td><strong>Content Creator</strong></td>
+                <td>Creative</td>
+                <td>Generates threads, memes, and social content</td>
+              </tr>
+              <tr>
+                <td><strong>Trading Bot</strong></td>
+                <td>Finance</td>
+                <td>Executes DCA, grid, and sniper strategies</td>
+              </tr>
+              <tr>
+                <td><strong>Airdrop Farmer</strong></td>
+                <td>Hunter</td>
+                <td>Tracks protocols and automates interactions</td>
+              </tr>
+              <tr>
+                <td><strong>Code Architect</strong></td>
+                <td>Builder</td>
+                <td>Writes and audits smart contracts</td>
+              </tr>
+              <tr>
+                <td><strong>Data Sentinel</strong></td>
+                <td>Analytics</td>
+                <td>Monitors whales and generates insights</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Creating Custom Agents</h3>
+        <p>You can extend the base agent class to create custom agents:</p>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">typescript</span>
+            <button class="code-block-copy" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="keyword">import</span> { Agent, Tool } <span class="keyword">from</span> <span class="string">'@moltbuilds/core'</span>;
+
+<span class="keyword">export class</span> <span class="function">MyCustomAgent</span> <span class="keyword">extends</span> Agent {
+  name = <span class="string">'custom-agent'</span>;
+  description = <span class="string">'My custom agent description'</span>;
+  
+  tools: Tool[] = [
+    <span class="keyword">new</span> WebScraperTool(),
+    <span class="keyword">new</span> AlertTool(),
+  ];
+
+  <span class="keyword">async</span> <span class="function">onMessage</span>(message: string) {
+    <span class="comment">// Handle incoming messages</span>
+    <span class="keyword">const</span> response = <span class="keyword">await</span> <span class="keyword">this</span>.think(message);
+    <span class="keyword">return</span> response;
+  }
+}</pre>
+        </div>
+      </section>
+
+      <!-- Configuration -->
+      <section class="section">
+        <span id="configuration" class="section-anchor"></span>
+        <h2>Configuration</h2>
+        <p>Agent configuration is stored in <code>moltbuilds.config.ts</code> at the root of your project.</p>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">typescript</span>
+            <button class="code-block-copy" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="keyword">import</span> { defineConfig } <span class="keyword">from</span> <span class="string">'@moltbuilds/core'</span>;
+
+<span class="keyword">export default</span> <span class="function">defineConfig</span>({
+  agent: {
+    name: <span class="string">'my-alpha-hunter'</span>,
+    model: <span class="string">'gpt-4o'</span>,
+    temperature: <span class="number">0.7</span>,
+  },
+  
+  memory: {
+    type: <span class="string">'vector'</span>,
+    provider: <span class="string">'pinecone'</span>,
+    contextWindow: <span class="number">32000</span>,
+  },
+  
+  tools: [
+    <span class="string">'web-scraper'</span>,
+    <span class="string">'sentiment-analyzer'</span>,
+    <span class="string">'twitter-api'</span>,
+  ],
+  
+  security: {
+    rateLimit: <span class="number">100</span>,
+    contentFilter: <span class="string">'medium'</span>,
+    sandboxed: <span class="keyword">true</span>,
+  },
+});</pre>
+        </div>
+
+        <h3>Environment Variables</h3>
+        <p>Sensitive configuration should be stored in <code>.env</code>:</p>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">env</span>
+            <button class="code-block-copy" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="comment"># LLM Providers</span>
+OPENAI_API_KEY=sk-...
+ANTHROPIC_API_KEY=sk-ant-...
+
+<span class="comment"># Integrations</span>
+TWITTER_API_KEY=...
+TWITTER_API_SECRET=...
+DISCORD_BOT_TOKEN=...
+
+<span class="comment"># Database</span>
+PINECONE_API_KEY=...
+PINECONE_ENVIRONMENT=us-east-1</pre>
+        </div>
+
+        <div class="callout callout-warning">
+          <div class="callout-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+            Security Warning
+          </div>
+          <p>Never commit your <code>.env</code> file to version control. Use a secrets manager like AWS Secrets Manager or Doppler for production deployments.</p>
+        </div>
+      </section>
+
+      <!-- Memory -->
+      <section class="section">
+        <span id="memory" class="section-anchor"></span>
+        <h2>Memory System</h2>
+        <p>Moltbuilds provides three memory types for different use cases:</p>
+
+        <h4>Buffer Memory</h4>
+        <p>Stores recent messages in a sliding window. Best for simple conversational agents with short context needs.</p>
+
+        <h4>Summary Memory</h4>
+        <p>Periodically summarizes conversation history to compress context. Good balance of context retention and token efficiency.</p>
+
+        <h4>Vector Memory</h4>
+        <p>Stores embeddings in a vector database for semantic retrieval. Best for agents that need long-term memory and knowledge base access.</p>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">typescript</span>
+            <button class="code-block-copy" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="keyword">import</span> { VectorMemory } <span class="keyword">from</span> <span class="string">'@moltbuilds/memory'</span>;
+
+<span class="keyword">const</span> memory = <span class="keyword">new</span> <span class="function">VectorMemory</span>({
+  provider: <span class="string">'pinecone'</span>,
+  index: <span class="string">'agent-memory'</span>,
+  embedModel: <span class="string">'text-embedding-3-small'</span>,
+  topK: <span class="number">5</span>,
+});
+
+<span class="comment">// Store a memory</span>
+<span class="keyword">await</span> memory.<span class="function">store</span>(<span class="string">'User prefers technical analysis over fundamentals'</span>);
+
+<span class="comment">// Retrieve relevant memories</span>
+<span class="keyword">const</span> memories = <span class="keyword">await</span> memory.<span class="function">retrieve</span>(<span class="string">'What trading style does the user prefer?'</span>);</pre>
+        </div>
+      </section>
+
+      <!-- Tools -->
+      <section class="section">
+        <span id="tools" class="section-anchor"></span>
+        <h2>Tools & Plugins</h2>
+        <p>Tools extend your agent's capabilities. Moltbuilds includes 20+ built-in tools and supports custom plugins.</p>
+
+        <h3>Built-in Tools</h3>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Tool</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><code>web-scraper</code></td><td>Extract data from any webpage</td></tr>
+              <tr><td><code>browser</code></td><td>Full browser automation with Puppeteer</td></tr>
+              <tr><td><code>calculator</code></td><td>Mathematical computations</td></tr>
+              <tr><td><code>code-interpreter</code></td><td>Execute Python/JS code safely</td></tr>
+              <tr><td><code>image-gen</code></td><td>Generate images with DALL-E or Stable Diffusion</td></tr>
+              <tr><td><code>twitter-api</code></td><td>Post, reply, and search Twitter</td></tr>
+              <tr><td><code>discord-api</code></td><td>Send messages and manage servers</td></tr>
+              <tr><td><code>wallet-connect</code></td><td>Interact with blockchain wallets</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Creating Custom Tools</h3>
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">typescript</span>
+            <button class="code-block-copy" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="keyword">import</span> { Tool, ToolInput } <span class="keyword">from</span> <span class="string">'@moltbuilds/core'</span>;
+
+<span class="keyword">export class</span> <span class="function">PriceFetcherTool</span> <span class="keyword">extends</span> Tool {
+  name = <span class="string">'price-fetcher'</span>;
+  description = <span class="string">'Fetches current token prices from CoinGecko'</span>;
+  
+  schema = {
+    token: { type: <span class="string">'string'</span>, required: <span class="keyword">true</span> },
+  };
+
+  <span class="keyword">async</span> <span class="function">execute</span>(input: ToolInput) {
+    <span class="keyword">const</span> response = <span class="keyword">await</span> <span class="function">fetch</span>(
+      <span class="string">`https://api.coingecko.com/api/v3/simple/price?ids=</span><span class="keyword">${</span>input.token<span class="keyword">}</span><span class="string">&vs_currencies=usd`</span>
+    );
+    <span class="keyword">return</span> response.<span class="function">json</span>();
+  }
+}</pre>
+        </div>
+      </section>
+
+      <!-- LLM Providers -->
+      <section class="section">
+        <span id="llm-providers" class="section-anchor"></span>
+        <h2>LLM Providers</h2>
+        <p>Moltbuilds supports multiple LLM providers out of the box:</p>
+
+        <ul>
+          <li><strong>OpenAI</strong> — GPT-4o, GPT-4 Turbo, GPT-3.5</li>
+          <li><strong>Anthropic</strong> — Claude 3 Opus, Sonnet, Haiku</li>
+          <li><strong>Google</strong> — Gemini Pro, Gemini Ultra</li>
+          <li><strong>Local</strong> — Ollama, LM Studio, vLLM</li>
+        </ul>
+
+        <div class="callout callout-info">
+          <div class="callout-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            Model Routing
+          </div>
+          <p>Use <code>model: 'auto'</code> to let Moltbuilds automatically route requests to the best available model based on task complexity and cost.</p>
+        </div>
+      </section>
+
+      <!-- Messaging Apps -->
+      <section class="section">
+        <span id="messaging" class="section-anchor"></span>
+        <h2>Messaging Apps</h2>
+        <p>Deploy your agent to any messaging platform with built-in adapters.</p>
+
+        <div class="cards-grid">
+          <div class="card">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            </div>
+            <h4>Discord</h4>
+            <p>Full bot support with slash commands, reactions, and thread management.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4 20-7z"/><path d="M22 2 11 13"/></svg>
+            </div>
+            <h4>Telegram</h4>
+            <p>Bot API integration with inline keyboards and group chat support.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+            </div>
+            <h4>Slack</h4>
+            <p>Workspace apps with channel posting, DMs, and app home tabs.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21l1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"/></svg>
+            </div>
+            <h4>WhatsApp</h4>
+            <p>Business API support for automated customer interactions.</p>
+          </div>
+        </div>
+
+        <h3>Discord Setup</h3>
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">typescript</span>
+            <button class="code-block-copy" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="keyword">import</span> { DiscordAdapter } <span class="keyword">from</span> <span class="string">'@moltbuilds/adapters'</span>;
+
+<span class="keyword">const</span> discord = <span class="keyword">new</span> <span class="function">DiscordAdapter</span>({
+  token: process.env.DISCORD_BOT_TOKEN,
+  intents: [<span class="string">'Guilds'</span>, <span class="string">'GuildMessages'</span>, <span class="string">'DirectMessages'</span>],
+});
+
+<span class="comment">// Register slash commands</span>
+discord.<span class="function">registerCommand</span>({
+  name: <span class="string">'ask'</span>,
+  description: <span class="string">'Ask the AI agent a question'</span>,
+  handler: <span class="keyword">async</span> (interaction) => {
+    <span class="keyword">const</span> response = <span class="keyword">await</span> agent.<span class="function">chat</span>(interaction.options.getString(<span class="string">'question'</span>));
+    <span class="keyword">await</span> interaction.<span class="function">reply</span>(response);
+  }
+});
+
+discord.<span class="function">start</span>();</pre>
+        </div>
+
+        <h3>Telegram Setup</h3>
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">typescript</span>
+            <button class="code-block-copy" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="keyword">import</span> { TelegramAdapter } <span class="keyword">from</span> <span class="string">'@moltbuilds/adapters'</span>;
+
+<span class="keyword">const</span> telegram = <span class="keyword">new</span> <span class="function">TelegramAdapter</span>({
+  token: process.env.TELEGRAM_BOT_TOKEN,
+  allowedChats: [<span class="string">'@mychannel'</span>, <span class="number">-1001234567890</span>],
+});
+
+telegram.<span class="function">on</span>(<span class="string">'message'</span>, <span class="keyword">async</span> (ctx) => {
+  <span class="keyword">const</span> response = <span class="keyword">await</span> agent.<span class="function">chat</span>(ctx.message.text);
+  <span class="keyword">await</span> ctx.<span class="function">reply</span>(response);
+});
+
+telegram.<span class="function">launch</span>();</pre>
+        </div>
+      </section>
+
+      <!-- Blockchain -->
+      <section class="section">
+        <span id="blockchain" class="section-anchor"></span>
+        <h2>Blockchain Integrations</h2>
+        <p>Connect your agents to Web3 with built-in blockchain support.</p>
+
+        <h3>Supported Chains</h3>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Chain</th>
+                <th>Features</th>
+                <th>RPC Provider</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Solana</strong></td>
+                <td>Token swaps, NFT minting, staking</td>
+                <td>Helius, QuickNode</td>
+              </tr>
+              <tr>
+                <td><strong>Ethereum</strong></td>
+                <td>Smart contracts, ERC-20, DeFi</td>
+                <td>Alchemy, Infura</td>
+              </tr>
+              <tr>
+                <td><strong>Base</strong></td>
+                <td>Low-cost transactions, L2 bridging</td>
+                <td>Base RPC, Alchemy</td>
+              </tr>
+              <tr>
+                <td><strong>Arbitrum</strong></td>
+                <td>DeFi protocols, fast finality</td>
+                <td>Arbitrum RPC</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Wallet Integration</h3>
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">typescript</span>
+            <button class="code-block-copy" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="keyword">import</span> { SolanaWallet } <span class="keyword">from</span> <span class="string">'@moltbuilds/blockchain'</span>;
+
+<span class="keyword">const</span> wallet = <span class="keyword">new</span> <span class="function">SolanaWallet</span>({
+  rpcUrl: process.env.HELIUS_RPC_URL,
+  privateKey: process.env.WALLET_PRIVATE_KEY,
+});
+
+<span class="comment">// Get balance</span>
+<span class="keyword">const</span> balance = <span class="keyword">await</span> wallet.<span class="function">getBalance</span>();
+console.<span class="function">log</span>(<span class="string">`Balance: </span><span class="keyword">${</span>balance<span class="keyword">}</span><span class="string"> SOL`</span>);
+
+<span class="comment">// Swap tokens via Jupiter</span>
+<span class="keyword">const</span> tx = <span class="keyword">await</span> wallet.<span class="function">swap</span>({
+  inputMint: <span class="string">'So11111111111111111111111111111111111111112'</span>, <span class="comment">// SOL</span>
+  outputMint: <span class="string">'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'</span>, <span class="comment">// USDC</span>
+  amount: <span class="number">0.1</span>,
+  slippage: <span class="number">0.5</span>,
+});
+
+console.<span class="function">log</span>(<span class="string">`Swap tx: </span><span class="keyword">${</span>tx.signature<span class="keyword">}</span><span class="string">`</span>);</pre>
+        </div>
+
+        <h3>On-Chain Data</h3>
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">typescript</span>
+            <button class="code-block-copy" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="keyword">import</span> { DuneClient, BirdeyeClient } <span class="keyword">from</span> <span class="string">'@moltbuilds/data'</span>;
+
+<span class="comment">// Query Dune Analytics</span>
+<span class="keyword">const</span> dune = <span class="keyword">new</span> <span class="function">DuneClient</span>(process.env.DUNE_API_KEY);
+<span class="keyword">const</span> whales = <span class="keyword">await</span> dune.<span class="function">query</span>(<span class="number">3156732</span>); <span class="comment">// Top SOL holders</span>
+
+<span class="comment">// Get token price from Birdeye</span>
+<span class="keyword">const</span> birdeye = <span class="keyword">new</span> <span class="function">BirdeyeClient</span>(process.env.BIRDEYE_API_KEY);
+<span class="keyword">const</span> price = <span class="keyword">await</span> birdeye.<span class="function">getPrice</span>(<span class="string">'So11111111111111111111111111111111111111112'</span>);</pre>
+        </div>
+
+        <div class="callout callout-warning">
+          <div class="callout-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+            Security Warning
+          </div>
+          <p>Never expose private keys in code. Always use environment variables and consider using a hardware wallet or MPC solution for production deployments.</p>
+        </div>
+      </section>
+
+      <!-- API Overview -->
+      <section class="section">
+        <span id="api-overview" class="section-anchor"></span>
+        <h2>API Overview</h2>
+        <p>The Moltbuilds API follows RESTful conventions and uses JSON for all requests and responses.</p>
+
+        <h3>Base URL</h3>
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">text</span>
+            <button class="code-block-copy" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre>https://api.moltbuilds.dev/v1</pre>
+        </div>
+
+        <h3>Authentication</h3>
+        <p>All API requests require a Bearer token in the Authorization header:</p>
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">bash</span>
+            <button class="code-block-copy" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre>curl -X POST https://api.moltbuilds.dev/v1/agents \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "my-agent", "template": "alpha-hunter"}'</pre>
+        </div>
+      </section>
+
+      <!-- Agents API -->
+      <section class="section">
+        <span id="api-agents" class="section-anchor"></span>
+        <h2>Agents API</h2>
+        <p>Manage agent lifecycle programmatically.</p>
+
+        <h3>Endpoints</h3>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th>Endpoint</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>POST</code></td>
+                <td>/agents</td>
+                <td>Create a new agent</td>
+              </tr>
+              <tr>
+                <td><code>GET</code></td>
+                <td>/agents</td>
+                <td>List all agents</td>
+              </tr>
+              <tr>
+                <td><code>GET</code></td>
+                <td>/agents/:id</td>
+                <td>Get agent details</td>
+              </tr>
+              <tr>
+                <td><code>PATCH</code></td>
+                <td>/agents/:id</td>
+                <td>Update agent config</td>
+              </tr>
+              <tr>
+                <td><code>DELETE</code></td>
+                <td>/agents/:id</td>
+                <td>Delete an agent</td>
+              </tr>
+              <tr>
+                <td><code>POST</code></td>
+                <td>/agents/:id/chat</td>
+                <td>Send message to agent</td>
+              </tr>
+              <tr>
+                <td><code>POST</code></td>
+                <td>/agents/:id/start</td>
+                <td>Start agent runtime</td>
+              </tr>
+              <tr>
+                <td><code>POST</code></td>
+                <td>/agents/:id/stop</td>
+                <td>Stop agent runtime</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Create Agent</h3>
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">bash</span>
+            <button class="code-block-copy" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre>curl -X POST https://api.moltbuilds.dev/v1/agents \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "my-alpha-hunter",
+    "template": "alpha-hunter",
+    "model": "gpt-4o",
+    "tools": ["web-scraper", "twitter-api"],
+    "config": {
+      "temperature": 0.7,
+      "maxTokens": 4096
+    }
+  }'</pre>
+        </div>
+
+        <h4>Response</h4>
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">json</span>
+            <button class="code-block-copy" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre>{
+  "id": "agt_abc123",
+  "name": "my-alpha-hunter",
+  "status": "created",
+  "template": "alpha-hunter",
+  "model": "gpt-4o",
+  "tools": ["web-scraper", "twitter-api"],
+  "createdAt": "2024-01-15T10:30:00Z"
+}</pre>
+        </div>
+
+        <h3>Chat with Agent</h3>
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">bash</span>
+            <button class="code-block-copy" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre>curl -X POST https://api.moltbuilds.dev/v1/agents/agt_abc123/chat \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "Find the top trending tokens on Solana today",
+    "stream": false
+  }'</pre>
+        </div>
+      </section>
+
+      <!-- Tools API -->
+      <section class="section">
+        <span id="api-tools" class="section-anchor"></span>
+        <h2>Tools API</h2>
+        <p>Manage and invoke tools directly via the API.</p>
+
+        <h3>Endpoints</h3>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th>Endpoint</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>GET</code></td>
+                <td>/tools</td>
+                <td>List available tools</td>
+              </tr>
+              <tr>
+                <td><code>GET</code></td>
+                <td>/tools/:name</td>
+                <td>Get tool schema</td>
+              </tr>
+              <tr>
+                <td><code>POST</code></td>
+                <td>/tools/:name/invoke</td>
+                <td>Execute a tool</td>
+              </tr>
+              <tr>
+                <td><code>POST</code></td>
+                <td>/tools/register</td>
+                <td>Register custom tool</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Invoke Tool</h3>
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">bash</span>
+            <button class="code-block-copy" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre>curl -X POST https://api.moltbuilds.dev/v1/tools/web-scraper/invoke \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://example.com",
+    "selector": ".main-content",
+    "format": "markdown"
+  }'</pre>
+        </div>
+
+        <h4>Response</h4>
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">json</span>
+            <button class="code-block-copy" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre>{
+  "success": true,
+  "tool": "web-scraper",
+  "result": {
+    "content": "# Page Title\n\nExtracted content here...",
+    "metadata": {
+      "url": "https://example.com",
+      "scrapedAt": "2024-01-15T10:30:00Z",
+      "contentLength": 2450
+    }
+  },
+  "executionTime": 1234
+}</pre>
+        </div>
+
+        <h3>Register Custom Tool</h3>
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">bash</span>
+            <button class="code-block-copy" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre>curl -X POST https://api.moltbuilds.dev/v1/tools/register \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "price-alert",
+    "description": "Set price alerts for tokens",
+    "schema": {
+      "token": { "type": "string", "required": true },
+      "targetPrice": { "type": "number", "required": true },
+      "direction": { "type": "string", "enum": ["above", "below"] }
+    },
+    "webhookUrl": "https://your-server.com/webhook/price-alert"
+  }'</pre>
+        </div>
+      </section>
+
+      <!-- Examples -->
+      <section class="section">
+        <span id="examples" class="section-anchor"></span>
+        <h2>Examples</h2>
+        <p>Real-world examples to get you started quickly.</p>
+
+        <h3>Alpha Hunter Bot</h3>
+        <p>A complete example of an alpha hunting agent that monitors Twitter and Discord for signals.</p>
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">typescript</span>
+            <button class="code-block-copy" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="keyword">import</span> { Agent, WebScraperTool, TwitterTool, AlertTool } <span class="keyword">from</span> <span class="string">'@moltbuilds/core'</span>;
+<span class="keyword">import</span> { TelegramAdapter } <span class="keyword">from</span> <span class="string">'@moltbuilds/adapters'</span>;
+
+<span class="keyword">const</span> agent = <span class="keyword">new</span> <span class="function">Agent</span>({
+  name: <span class="string">'alpha-hunter'</span>,
+  model: <span class="string">'gpt-4o'</span>,
+  systemPrompt: <span class="string">`You are an alpha hunter that finds early crypto opportunities.
+    Monitor social signals, analyze sentiment, and alert on high-conviction plays.`</span>,
+  tools: [
+    <span class="keyword">new</span> <span class="function">WebScraperTool</span>(),
+    <span class="keyword">new</span> <span class="function">TwitterTool</span>({ apiKey: process.env.TWITTER_API_KEY }),
+    <span class="keyword">new</span> <span class="function">AlertTool</span>({ webhook: process.env.ALERT_WEBHOOK }),
+  ],
+});
+
+<span class="comment">// Schedule hourly scans</span>
+agent.<span class="function">schedule</span>(<span class="string">'0 * * * *'</span>, <span class="keyword">async</span> () => {
+  <span class="keyword">const</span> signals = <span class="keyword">await</span> agent.<span class="function">chat</span>(<span class="string">'Scan Twitter for trending crypto tokens and analyze sentiment'</span>);
+  console.<span class="function">log</span>(signals);
+});
+
+<span class="comment">// Connect to Telegram</span>
+<span class="keyword">const</span> telegram = <span class="keyword">new</span> <span class="function">TelegramAdapter</span>({ token: process.env.TELEGRAM_BOT_TOKEN });
+telegram.<span class="function">connect</span>(agent);
+telegram.<span class="function">launch</span>();</pre>
+        </div>
+
+        <h3>Trading Bot with DCA</h3>
+        <p>An automated trading agent with dollar-cost averaging strategy.</p>
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">typescript</span>
+            <button class="code-block-copy" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="keyword">import</span> { Agent } <span class="keyword">from</span> <span class="string">'@moltbuilds/core'</span>;
+<span class="keyword">import</span> { SolanaWallet, JupiterSwap } <span class="keyword">from</span> <span class="string">'@moltbuilds/blockchain'</span>;
+
+<span class="keyword">const</span> wallet = <span class="keyword">new</span> <span class="function">SolanaWallet</span>({
+  rpcUrl: process.env.HELIUS_RPC_URL,
+  privateKey: process.env.WALLET_PRIVATE_KEY,
+});
+
+<span class="keyword">const</span> jupiter = <span class="keyword">new</span> <span class="function">JupiterSwap</span>(wallet);
+
+<span class="keyword">const</span> agent = <span class="keyword">new</span> <span class="function">Agent</span>({
+  name: <span class="string">'dca-bot'</span>,
+  model: <span class="string">'gpt-4o'</span>,
+  tools: [wallet, jupiter],
+});
+
+<span class="comment">// DCA: Buy $10 of SOL every day at 9am</span>
+agent.<span class="function">schedule</span>(<span class="string">'0 9 * * *'</span>, <span class="keyword">async</span> () => {
+  <span class="keyword">const</span> result = <span class="keyword">await</span> jupiter.<span class="function">swap</span>({
+    inputMint: <span class="string">'USDC'</span>,
+    outputMint: <span class="string">'SOL'</span>,
+    amount: <span class="number">10</span>,
+    slippage: <span class="number">0.5</span>,
+  });
+  console.<span class="function">log</span>(<span class="string">`DCA executed: </span><span class="keyword">${</span>result.signature<span class="keyword">}</span><span class="string">`</span>);
+});
+
+agent.<span class="function">start</span>();</pre>
+        </div>
+
+        <h3>Content Creator Agent</h3>
+        <p>An agent that generates and schedules social media content.</p>
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">typescript</span>
+            <button class="code-block-copy" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="keyword">import</span> { Agent, ImageGenTool, TwitterTool } <span class="keyword">from</span> <span class="string">'@moltbuilds/core'</span>;
+
+<span class="keyword">const</span> agent = <span class="keyword">new</span> <span class="function">Agent</span>({
+  name: <span class="string">'content-creator'</span>,
+  model: <span class="string">'gpt-4o'</span>,
+  systemPrompt: <span class="string">`You are a crypto content creator. Create engaging threads,
+    memes, and educational content about DeFi and blockchain.`</span>,
+  tools: [
+    <span class="keyword">new</span> <span class="function">ImageGenTool</span>({ provider: <span class="string">'dall-e-3'</span> }),
+    <span class="keyword">new</span> <span class="function">TwitterTool</span>({ 
+      apiKey: process.env.TWITTER_API_KEY,
+      apiSecret: process.env.TWITTER_API_SECRET,
+    }),
+  ],
+});
+
+<span class="comment">// Generate and post a thread</span>
+<span class="keyword">const</span> thread = <span class="keyword">await</span> agent.<span class="function">chat</span>(<span class="string">`
+  Create a Twitter thread explaining liquid staking on Solana.
+  Make it educational but engaging. Include relevant emojis.
+  Generate a header image for the thread.
+`</span>);
+
+console.<span class="function">log</span>(thread);</pre>
+        </div>
+
+        <div class="callout callout-tip">
+          <div class="callout-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4"/><path d="m6.34 6.34 2.83 2.83"/><path d="M2 12h4"/><path d="m6.34 17.66 2.83-2.83"/><path d="M12 18v4"/><path d="m17.66 17.66-2.83-2.83"/><path d="M18 12h4"/><path d="m17.66 6.34-2.83 2.83"/></svg>
+            More Examples
+          </div>
+          <p>Check out the <a href="https://github.com/moltbuilds/examples">examples repository</a> for 20+ complete agent implementations including airdrop farmers, whale watchers, and portfolio trackers.</p>
+        </div>
+      </section>
+
+      <!-- Changelog -->
+      <section class="section">
+        <span id="changelog" class="section-anchor"></span>
+        <h2>Changelog</h2>
+        <p>Recent updates and improvements to Moltbuilds.</p>
+
+        <h3>v2.4.0 <span style="color: var(--gray-500); font-weight: 400; font-size: 0.9rem;">— January 2024</span></h3>
+        <ul>
+          <li><strong>New:</strong> Added Base and Arbitrum blockchain support</li>
+          <li><strong>New:</strong> WhatsApp Business API adapter</li>
+          <li><strong>New:</strong> Claude 3 Opus and Sonnet model support</li>
+          <li><strong>Improved:</strong> 40% faster tool execution pipeline</li>
+          <li><strong>Fixed:</strong> Memory leak in long-running vector store queries</li>
+        </ul>
+
+        <h3>v2.3.0 <span style="color: var(--gray-500); font-weight: 400; font-size: 0.9rem;">— December 2023</span></h3>
+        <ul>
+          <li><strong>New:</strong> Scheduled tasks with cron syntax</li>
+          <li><strong>New:</strong> Multi-agent orchestration support</li>
+          <li><strong>New:</strong> Built-in rate limiting and retry logic</li>
+          <li><strong>Improved:</strong> TypeScript types for all APIs</li>
+          <li><strong>Fixed:</strong> Discord slash command registration race condition</li>
+        </ul>
+
+        <h3>v2.2.0 <span style="color: var(--gray-500); font-weight: 400; font-size: 0.9rem;">— November 2023</span></h3>
+        <ul>
+          <li><strong>New:</strong> Jupiter aggregator integration for Solana swaps</li>
+          <li><strong>New:</strong> Dune Analytics data tool</li>
+          <li><strong>New:</strong> Image generation with DALL-E 3</li>
+          <li><strong>Improved:</strong> Context window management for long conversations</li>
+          <li><strong>Fixed:</strong> Telegram inline keyboard callback handling</li>
+        </ul>
+
+        <h3>v2.1.0 <span style="color: var(--gray-500); font-weight: 400; font-size: 0.9rem;">— October 2023</span></h3>
+        <ul>
+          <li><strong>New:</strong> Vector memory with Pinecone and Weaviate</li>
+          <li><strong>New:</strong> Slack workspace app adapter</li>
+          <li><strong>New:</strong> Custom tool plugin system</li>
+          <li><strong>Improved:</strong> CLI initialization wizard</li>
+          <li><strong>Fixed:</strong> OpenAI API streaming responses</li>
+        </ul>
+
+        <h3>v2.0.0 <span style="color: var(--gray-500); font-weight: 400; font-size: 0.9rem;">— September 2023</span></h3>
+        <ul>
+          <li><strong>Breaking:</strong> Complete rewrite with new architecture</li>
+          <li><strong>New:</strong> Agent templates (Alpha Hunter, Trading Bot, etc.)</li>
+          <li><strong>New:</strong> Discord and Telegram adapters</li>
+          <li><strong>New:</strong> Solana wallet integration</li>
+          <li><strong>New:</strong> Web scraping and browser automation tools</li>
+        </ul>
+
+        <div class="callout callout-info">
+          <div class="callout-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            Stay Updated
+          </div>
+          <p>Follow <a href="#">@moltbuilds</a> on Twitter or join our <a href="#">Discord</a> to get notified about new releases and features.</p>
+        </div>
+      </section>
+
+      <!-- Footer Nav -->
+      <div class="footer">
+        <div class="footer-nav">
+          <a href="#" class="footer-link">
+            <span class="footer-link-label">← Previous</span>
+            <span class="footer-link-title">Overview</span>
+          </a>
+          <a href="#" class="footer-link next">
+            <span class="footer-link-label">Next →</span>
+            <span class="footer-link-title">Advanced Configuration</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Copy code functionality
+    function copyCode(btn) {
+      const codeBlock = btn.closest('.code-block');
+      const code = codeBlock.querySelector('pre').textContent;
+      
+      navigator.clipboard.writeText(code).then(() => {
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'Copy';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+
+    // Tabs functionality
+    function showTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      
+      document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
+      document.getElementById(`tab-${tabId}`).classList.add('active');
+    }
+
+    // Active sidebar link
+    const sections = document.querySelectorAll('.section-anchor');
+    const navLinks = document.querySelectorAll('.sidebar-link');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (scrollY >= sectionTop - 150) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${current}`) {
+          link.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
