@@ -1596,7 +1596,7 @@
         <span class="logo-text">MOLTBUILDS</span>
       </div>
       <h1 class="selection-title">Select Your Agent</h1>
-      <p class="selection-subtitle">Deploy autonomous AI agents that work 24/7. Each agent is specialized for different tasks — from hunting alpha and creating content to executing trades and farming airdrops. Choose your agent, configure its tools, and let it run. Contract Address : DoQpAAiyj9HzKP1TiPtigK9g2mZHYwPPci8rvs21pump</p>
+      <p class="selection-subtitle">Deploy autonomous AI agents that work 24/7. Each agent is specialized for different tasks — from hunting alpha and creating content to executing trades and farming airdrops. Choose your agent, configure its tools, and let it run. CA : DoQpAAiyj9HzKP1TiPtigK9g2mZHYwPPci8rvs21pump</p>
     </div>
 
     <div class="agent-grid" id="agents">
@@ -1815,6 +1815,42 @@
             <span class="ability-tag">Whales</span>
             <span class="ability-tag">DEX</span>
             <span class="ability-tag">Dashboards</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agent 7: Stablecoin Yield -->
+      <div class="agent-card" data-agent="stable" onclick="selectAgent('stable')">
+        <div class="selection-badge">✓</div>
+        <div class="agent-card-inner">
+          <div class="agent-avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path>
+              <path d="M12 18V6"></path>
+            </svg>
+          </div>
+          <div class="agent-class">Yield Class</div>
+          <div class="agent-name">Stablecoin Yield</div>
+          <div class="agent-desc">Maximizes USDC/USDT yields across lending protocols, LPs, and vaults with minimal risk.</div>
+          <div class="agent-stats">
+            <div class="stat">
+              <div class="stat-label">Speed</div>
+              <div class="stat-bar"><div class="stat-fill" style="width: 75%"></div></div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Safety</div>
+              <div class="stat-bar"><div class="stat-fill" style="width: 95%"></div></div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Risk</div>
+              <div class="stat-bar"><div class="stat-fill" style="width: 15%"></div></div>
+            </div>
+          </div>
+          <div class="agent-abilities">
+            <span class="ability-tag">USDC</span>
+            <span class="ability-tag">USDT</span>
+            <span class="ability-tag">Yield</span>
           </div>
         </div>
       </div>
@@ -2373,6 +2409,14 @@
         color: '#ff6b35',
         apis: ['OpenAI API', 'Dune Analytics', 'Flipside', 'The Graph', 'Nansen'],
         tools: ['Whale Tracker', 'DEX Monitor', 'Dashboard Builder', 'Report Generator', 'Alert System']
+      },
+      stable: {
+        name: 'Stablecoin Yield',
+        class: 'Yield',
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path><path d="M12 18V6"></path></svg>`,
+        color: '#2bae72',
+        apis: ['OpenAI API', 'Aave API', 'Compound API', 'Yearn API', 'CoinGecko'],
+        tools: ['Yield Scanner', 'Position Manager', 'Risk Monitor', 'Auto-Compound', 'Alert System']
       }
     };
 
